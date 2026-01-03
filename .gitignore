@@ -19,3 +19,7 @@ __pycache__
 
 ConanPresets.json
 .venv
+!CMakeLists.txt
+!CMakeLists.txt
+!problem-solver/CMakeLists.txt
+!problem-solver/cxx/CMakeLists.txt
