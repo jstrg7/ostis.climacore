@@ -1,8 +1,0 @@
-minor_concept
-<- sc_node_class;
-=> nrel_main_idtf:
-	[неосновное понятие] 
-	(* <- lang_ru;; *);
-=> nrel_main_idtf:
-	[minor concept] 
-	(* <- lang_en;; *);;

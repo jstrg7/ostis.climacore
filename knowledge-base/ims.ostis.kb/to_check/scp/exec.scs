@@ -1,3 +1,0 @@
-executed_scp_operator <- sc_node_class;;
-successfully_executed_scp_operator <- sc_node_class;;
-unsuccessfully_executed_scp_operator <- sc_node_class;;
