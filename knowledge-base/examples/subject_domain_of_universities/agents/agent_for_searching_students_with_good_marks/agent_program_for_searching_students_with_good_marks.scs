@@ -1,0 +1,125 @@
+agent_program_for_searching_students_with_good_marks
+=> nrel_main_idtf:
+	[Агентная программа поиска студентов заданного университета, которые имеют хорошие оценки]
+    (*
+        <- lang_ru;;
+    *);
+	[Agent program for searching students of specified university with good marks]
+    (*
+        <- lang_en;;
+    *);
+<- scp_program;
+<- agent_scp_program;
+-> rrel_key_sc_element:
+    .._process;;
+
+agent_program_for_searching_students_with_good_marks = [*
+.._process
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: .._event;
+_-> rrel_2:: rrel_in:: .._incoming_arc;
+
+<=_ nrel_decomposition_of_action:: _...
+(*
+	_-> rrel_1:: .._get_action
+	(*
+		<-_ searchElStr3;;
+
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: .._subscription_element;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._incoming_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: .._action;;
+
+		_=> nrel_goto:: .._get_action_argument;;
+	*);;
+	_-> .._get_action_argument
+	(*
+		<-_ searchElStr5;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._action;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: .._university;;
+		_-> rrel_4:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_1;;
+
+		_=> nrel_then:: .._call_program_for_searching_students_with_good_marks;;
+		_=> nrel_else:: .._finish_action_unsuccessfully;;
+	*);;
+	_-> .._call_program_for_searching_students_with_good_marks
+	(*
+		<-_ call;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: program_for_searching_students_with_good_marks;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._params
+		(* 
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._university;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_var:: .._result_students;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: .._descriptor;;
+					
+		_=> nrel_goto:: .._wait_for_result;;
+	*);;
+	_-> .._wait_for_result
+	(*
+		<-_ waitReturn;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._descriptor;;
+						
+		_=> nrel_goto:: .._print_result_students;;
+	*);;
+	_-> .._print_result_students
+	(*
+		<-_ printEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._result_students;;
+
+		_=> nrel_goto:: .._set_result;;
+	*);;
+	_-> .._set_result
+	(*
+		<-_ genElStr5;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._action;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_common_arc:: .._arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._result_students;;
+		_-> rrel_4:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_result;;
+
+		_=> nrel_goto:: .._finish_action_successfully;;
+	*);;
+	_-> .._finish_action_successfully
+	(*
+		<-_ genElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_finished_successfully;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._action;;
+
+		_=> nrel_goto:: .._finish_action;;
+	*);;
+	_-> .._finish_action
+	(*
+		<-_ genElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_finished;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._action;;
+
+		_=> nrel_goto:: .._return;;
+	*);;
+	_-> .._finish_action_unsuccessfully
+	(*
+		<-_ genElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_finished_unsuccessfully;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._action;;
+
+		_=> nrel_goto:: .._finish_action;;
+	*);;
+	_-> .._return
+	(*
+		<-_ return;;
+	*);;
+*);;
+*];;

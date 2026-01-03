@@ -1,0 +1,13 @@
+docker-compose.yml
+Dockerfile
+.dockerignore
+.git
+.gitignore
+interface
+knowledge-base
+LICENSE
+README.md
+subsystems.txt
+build
+sc-machine
+ConanPresets.json

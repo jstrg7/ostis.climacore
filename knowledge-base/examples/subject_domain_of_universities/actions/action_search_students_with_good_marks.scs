@@ -1,0 +1,9 @@
+action_search_students_with_good_marks
+<- sc_node_class;
+=> nrel_main_idtf:
+    [действие. поиск студентов с хорошими оценками]
+    (*
+        <- lang_ru;;
+    *);
+<= nrel_inclusion:
+    information_action;;

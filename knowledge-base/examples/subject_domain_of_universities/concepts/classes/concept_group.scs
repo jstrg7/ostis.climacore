@@ -1,0 +1,9 @@
+concept_group
+<- sc_node_class;
+=> nrel_main_idtf:
+    [группа студентов]
+    (*
+        <- lang_ru;;
+    *);
+<= nrel_inclusion:
+    concept_set;;

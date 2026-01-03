@@ -1,0 +1,11 @@
+rrel_group
+<- sc_node_role_relation;
+=> nrel_main_idtf:
+    [группа']
+    (*
+        <- lang_ru;;
+    *);
+=> nrel_first_domain:
+    concept_university;
+=> nrel_second_domain:
+    concept_group;;

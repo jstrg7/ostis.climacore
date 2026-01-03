@@ -1,0 +1,29 @@
+ui_menu_for_searching_students_with_good_marks
+<- ui_user_command_class_atom;
+<- ui_user_command_class_view_kb;
+=> nrel_main_idtf:
+	[Найти студентов заданного университета, которые имеют хорошие оценки]
+	(*
+		<- lang_ru;;
+	*);
+	[Search students of specified university with good marks]
+	(*
+		<- lang_en;;
+	*);
+=> ui_nrel_command_template:
+	[*
+		action_search_students_with_good_marks _-> .._action
+		(*
+			_-> rrel_1:: ui_arg_1;;
+		*);;
+		.._action <-_ action;;
+	*];
+=> ui_nrel_command_lang_template:
+	[Найти студентов $ui_arg_1, которые имеют хорошие оценки]
+	(*
+		<- lang_ru;;
+	*);
+	[Search students of $ui_arg_1 with good marks]
+	(*
+		<- lang_en;;
+	*);;

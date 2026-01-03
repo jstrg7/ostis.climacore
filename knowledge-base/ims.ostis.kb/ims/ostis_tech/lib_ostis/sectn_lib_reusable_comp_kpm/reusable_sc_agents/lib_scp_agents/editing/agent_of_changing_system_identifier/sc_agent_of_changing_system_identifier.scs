@@ -1,0 +1,53 @@
+sc_agent_of_changing_system_identifier
+=> nrel_main_idtf:
+	[sc-агент замены системного идентификатора на указанный файл] (* <- lang_ru;; *);
+	[sc-agent of changing system identifier on specified file] (* <- lang_en;; *);
+	
+<- abstract_sc_agent;
+
+=> nrel_sc_agent_action_class:
+    action_to_change_system_identifier;
+
+=> nrel_primary_initiation_condition: 
+	(sc_event_after_generate_outgoing_arc => action_initiated);
+	
+=> nrel_initiation_condition_and_result: 
+	(..sc_agent_of_changing_system_identifier_condition => ..sc_agent_of_changing_system_identifier_result);
+	
+<= nrel_sc_agent_key_sc_elements: 
+	{
+	action_initiated;
+	action;
+	action_to_change_system_identifier
+	};
+
+=> nrel_inclusion: 
+	.platform_independent_realization_of_sc_agent_of_changing_system_identifier
+	(*
+	<- platform_independent_abstract_sc_agent;;
+	<= nrel_sc_agent_program: 
+		{
+		agent_of_changing_system_identifier
+		};;
+		
+	-> sc_agent_of_changing_system_identifier_scp (* <|- active_sc_agent;; *);;
+	*);;
+
+..sc_agent_of_changing_system_identifier_condition
+= [*
+	action_to_change_system_identifier _-> .._action;;
+	action_initiated _-> .._action;;
+	action _-> .._action;;
+	.._action _-> rrel_1:: .._param1;;
+	.._action _-> rrel_2:: .._param2;;
+*];;
+
+..sc_agent_of_changing_system_identifier_result
+= [*
+	action_to_change_system_identifier _-> .._action;;
+	action_finished _-> .._action;;
+	action _-> .._action;;
+	.._action _=> nrel_result:: .._answer;;
+	.._action _-> rrel_1:: .._param1;;
+	.._action _-> rrel_2:: .._param2;;
+*];;

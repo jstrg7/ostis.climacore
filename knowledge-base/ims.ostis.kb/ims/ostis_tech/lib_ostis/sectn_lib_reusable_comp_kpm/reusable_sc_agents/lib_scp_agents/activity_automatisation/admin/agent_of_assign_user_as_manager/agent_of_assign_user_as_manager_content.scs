@@ -1,0 +1,195 @@
+agent_of_assign_user_as_manager
+=> nrel_main_idtf:
+	[агентная scp-программа назначения менеджером] (* <- lang_ru;; *);
+	[agent scp-program of assign user as manager] (* <- lang_en;; *);
+<- scp_program;
+<- agent_scp_program;
+-> rrel_key_sc_element: .._process1;;
+
+agent_of_assign_user_as_manager = [*
+.._process1
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: _event;
+_-> rrel_2:: rrel_in:: _input_arc;
+<=_ nrel_decomposition_of_action:: .._actions (*
+
+	_-> rrel_1:: .._agent_of_assign_user_as_manager_operator0 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _temp;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: _input_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _action;;
+
+		_=> nrel_then:: .._agent_of_assign_user_as_manager_operator1A;;
+		_=> nrel_else:: .._agent_of_assign_user_as_manager_return;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator1A (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_assign_user_as_manager;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_then:: .._agent_of_assign_user_as_manager_operator1A1;;
+		_=> nrel_else:: .._agent_of_assign_user_as_manager_return;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_return (*
+		<-_ return;;
+
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator1A1 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _user_future_manager;;
+
+		_=> nrel_then:: .._agent_of_assign_user_as_manager_operator1A2;;
+		_=> nrel_else:: .._agent_of_assign_user_as_manager_return;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator1A2 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: ui_user;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _user_future_manager;;
+
+		_=> nrel_then:: .._agent_of_assign_user_as_manager_operator1B;;
+		_=> nrel_else:: .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator1B (*
+		<-_ searchElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _user;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_authors;;
+
+		_=> nrel_then:: .._agent_of_assign_user_as_manager_operator1C;;
+		_=> nrel_else:: .._agent_of_assign_user_as_manager_return;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_adding_validating_message;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_assign_user_as_manager_param0 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [Wrong first parameter! Node supplied as a parameter to the input is not a user];;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message_waitreturn_proc_of_adding_validating_message;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message_waitreturn_proc_of_adding_validating_message (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_return;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator1C (*
+		<-_ searchElStr5;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _system;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _user;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_administrator;;
+
+		_=> nrel_then:: .._agent_of_assign_user_as_manager_operator1D;;
+		_=> nrel_else:: .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message_have_not_administration_rights;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator1D (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_const:: rrel_node:: rrel_scp_var:: _result_of_assign_user_as_manager;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_operator1E;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message_have_not_administration_rights (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_adding_validating_message;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_assign_user_as_manager_param1 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [You have not administrator rights];;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr2;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message_waitreturn_have_not_administration_rights;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_call_proc_of_adding_validating_message_waitreturn_have_not_administration_rights (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr2;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_return;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator1E (*
+		<-_ genElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _system;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_const:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _user_future_manager;;
+		_-> rrel_4:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_manager;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_operator2A;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator2A (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_assign_user_as_manager;;
+		_-> rrel_2:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _system;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_operator2B;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator2B (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_assign_user_as_manager;;
+		_-> rrel_2:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _user_future_manager;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_operator2C;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator2C (*
+		<-_ searchSetStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _system;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_const:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _user_future_manager;;
+		_-> rrel_4:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_manager;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_2:: _result_of_assign_user_as_manager;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_4:: _result_of_assign_user_as_manager;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_operator2D;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator2D (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_assign_user_as_manager;;
+		_-> rrel_2:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_const:: nrel_manager;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_operator2F;;
+	*);;
+
+	_-> .._agent_of_assign_user_as_manager_operator2F (*
+		<-_ genElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_const:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _result_of_assign_user_as_manager;;
+		_-> rrel_4:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_result;;
+
+		_=> nrel_goto:: .._agent_of_assign_user_as_manager_return;;
+	*);;
+
+*);;
+
+*];;

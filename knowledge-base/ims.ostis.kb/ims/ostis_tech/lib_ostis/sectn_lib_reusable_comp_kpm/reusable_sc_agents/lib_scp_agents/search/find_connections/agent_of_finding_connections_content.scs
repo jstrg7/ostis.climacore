@@ -1,0 +1,155 @@
+agent_of_finding_connections
+=> nrel_main_idtf:
+	[агентная scp-программа поиска непосредственных связей между двумя объектами] (* <- lang_ru;; *);
+	[agent scp-program of finding immediate connections between two objects] (* <- lang_en;; *);
+<- scp_program;
+<- agent_scp_program;
+-> rrel_key_sc_element: .._process1;;
+
+agent_of_finding_connections = [*
+.._process1
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: _event;
+_-> rrel_2:: rrel_in:: _input_arc;
+<=_ nrel_decomposition_of_action:: .._actions (*
+
+	_-> rrel_1:: .._agent_of_finding_connections_operator1 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _temp;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: _input_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator2;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator2 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_finding_connections;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_then:: .._agent_of_finding_connections_operator3A;;
+		_=> nrel_else:: .._agent_of_finding_connections_operator_return;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator3A (*
+		<-_ searchElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _param;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_1;;
+
+		_=> nrel_then:: .._agent_of_finding_connections_operator3B;;
+		_=> nrel_else:: .._agent_of_finding_connections_operator_return;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator_return (*
+		<-_ return;;
+
+	*);;
+
+	_-> .._agent_of_finding_connections_operator3B (*
+		<-_ searchElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc3;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _aim;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc4;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_2;;
+
+		_=> nrel_then:: .._agent_of_finding_connections_operator4;;
+		_=> nrel_else:: .._agent_of_finding_connections_operator_return;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator4 (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_const:: rrel_node:: rrel_scp_var:: _result_of_finding_connections2;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator5;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator5 (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_finding_connections;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_finding_connections_param0 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _param;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_var:: _aim;;
+			_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _result_of_finding_connections2;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator6;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator6 (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator7A;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator7A (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_const:: rrel_node:: rrel_scp_var:: _result_of_finding_connections1;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator7B;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator7B (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_finding_connections2;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _el;;
+
+		_=> nrel_then:: .._agent_of_finding_connections_operator7C;;
+		_=> nrel_else:: .._agent_of_finding_connections_operator8A;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator7C (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _arc;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator7D;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator8A (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _result_of_finding_connections2;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator_gen_answer;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator_gen_answer (*
+		<-_ genElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_const:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _result_of_finding_connections1;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_result;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator_return;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator7D (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_finding_connections1;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _el;;
+
+		_=> nrel_then:: .._agent_of_finding_connections_operator7B;;
+		_=> nrel_else:: .._agent_of_finding_connections_operator7E;;
+	*);;
+
+	_-> .._agent_of_finding_connections_operator7E (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_finding_connections1;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc3;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _el;;
+
+		_=> nrel_goto:: .._agent_of_finding_connections_operator7B;;
+	*);;
+
+*);;
+
+*];;

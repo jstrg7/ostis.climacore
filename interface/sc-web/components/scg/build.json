@@ -1,0 +1,46 @@
+{
+	"sources": [
+        "src/gwf-file-creater.js",
+        "src/gwf-file-loader.js",
+        "src/gwf-model-objects.js",
+        "src/gwf-object-info-reader.js",
+        "src/scg-object-builder.js",
+        "src/scg.js",
+        "src/scg-debug.js",
+        "src/scg-math.js",
+        "src/scg-model-objects.js",
+        "src/scg-alphabet.js",
+        "src/scg-render.js",
+        "src/scg-scene.js",
+        "src/scg-layout.js",
+	    "src/scg-tree.js"
+    ],
+	
+	"component": [
+        "src/scg-struct.js",
+        "src/scg-object-creator.js",
+        "src/scg-component.js",
+        "src/listener/scg-mode-bus.js",
+        "src/listener/scg-mode-contour.js",
+        "src/listener/scg-mode-connector.js",
+        "src/listener/scg-mode-link.js",
+        "src/listener/scg-mode-select.js",
+        "src/command/append-object.js",
+        "src/command/command-manager.js",
+        "src/command/create-node.js",
+        "src/command/create-connector.js",
+        "src/command/create-bus.js",
+        "src/command/create-contour.js",
+        "src/command/create-link.js",
+        "src/command/change-idtf.js",
+        "src/command/change-content.js",
+        "src/command/change-type.js",
+        "src/command/delete-objects.js",
+        "src/command/move-object.js",
+        "src/command/move-line-point.js",
+        "src/command/get-node-from-memory.js",
+        "src/command/wrapper-command.js"
+    ],
+
+	"target": "static/components/js/scg/scg.js"
+}

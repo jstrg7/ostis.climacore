@@ -1,0 +1,376 @@
+// ==========================================================================================
+// ПРОГРАММА: Программа поиска студентов с хорошими оценками
+// ==========================================================================================
+// НАЗНАЧЕНИЕ:
+//   Эта scp-программа ищет всех студентов в указанном университете,
+//   у которых средняя оценка >= 8.0, и собирает их в результирующее множество.
+//
+// ВХОДНЫЕ ПАРАМЕТРЫ:
+//   .._university - университет, в рамках которого ищутся студенты с хорошими оценками.
+//
+// ВЫХОДНЫЕ ПАРАМЕТРЫ:
+//   .._result_students - результирующая структура, содержащая всех найденных студентов со 
+//						  средней оценкой >= 8.0.
+//
+// АЛГОРИТМ:
+//   1. Создать пустое результирующее множество студентов.
+//   2. Проверить, что входной аргумент - это экземпляр класса университетов.
+//   3. Найти все группы, принадлежащие указанному университету.
+//   4. Для каждой группы пройти через всех студентов.
+//   5. Для каждого студента получить его среднюю оценку.
+//   6. Если средняя оценка >= 8.0, добавить студента в результирующее множество.
+//   7. Очистить временные множества и вернуть результат.
+//
+// ИСПОЛЬЗУЕМЫЕ КЛЮЧЕВЫЕ SC-ЭЛЕМЕНТЫ:
+//   - concept_university: класс университетов
+//   - nrel_group: связывает университет с его группами
+//   - rrel_student: связывает группы со студентами
+//   - concept_student: класс студентов
+//   - nrel_average_mark: содержит среднюю оценку студента
+//
+// ==========================================================================================
+
+program_for_searching_students_with_good_marks
+=> nrel_main_idtf:
+	[Программа поиска студентов заданного университета, которые имеют хорошие оценки]
+    (*
+        <- lang_ru;;
+    *);
+	[Program for searching students of specified university with good marks]
+    (*
+        <- lang_en;;
+    *);
+<- scp_program;
+-> rrel_key_sc_element:
+    .._process;;
+
+program_for_searching_students_with_good_marks = [*
+.._process
+<-_ scp_process;
+
+// ОБЪЯВЛЕНИЕ ВХОДНЫХ И ВЫХОДНЫХ ПАРАМЕТРОВ:
+_-> rrel_1:: rrel_in:: .._university; // университет, в рамках которого ищутся студенты с хорошими оценками.
+_-> rrel_2:: rrel_out:: .._result_students; // результирующая структура студентов с хорошими оценками.
+
+<=_ nrel_decomposition_of_action:: _...
+(*
+	// ШАГ 1: ИНИЦИАЛИЗАЦИЯ РЕЗУЛЬТИРУЮЩЕЙ СТРУКТУРЫ
+	// Создать пустую структуру для добавления студентов.
+	_-> rrel_1:: .._generate_result_set_of_students_with_good_marks
+	(*
+		<-_ genElStr3;;
+
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: rrel_structure:: .._result_students;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_result_students_to_class;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_const:: concept_student;;
+
+        // Перейти к проверке входного аргумента.
+		_=> nrel_goto:: .._check_university;;
+	*);;
+
+	// ШАГ 2: ПРОВЕРКА ВХОДНОГО АРГУМЕНТА
+	// Проверить, что входной аргумент действительно является экземпляром класса университетов.
+	_-> .._check_university
+	(*
+		<-_ searchElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: concept_university;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: .._arc_from_class_to_university;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_const:: .._university;;
+
+		// Если входной аргумент является экземпляром класса университетов, 
+		// то перейти к печати в терминал, что он является университетом.
+		_=> nrel_then:: .._print_that_specified_argument_is_university;;
+		// Если входной аргумент не является экземпляром класса университетов, 
+		// то перейти к печати в терминал, что он не является университетом.
+		_=> nrel_else:: .._print_that_specified_argument_is_not_university;;
+	*);;
+
+	// Напечатать в терминал, что входной аргумент является университетом.
+	_-> .._print_that_specified_argument_is_university
+	(*
+		<-_ printNl;;		
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Specified argument is university];;
+
+		// Перейти к поиску всех групп в университете.
+		_=> nrel_goto:: .._search_university_groups;;
+	*);;
+
+	// ШАГ 3: ПОИСК ВСЕХ ГРУПП В УНИВЕРСИТЕТЕ
+	// Найти все группы, принадлежащие университету, сформировать множество из них и записать в .._found_groups.
+	_-> .._search_university_groups
+	(*
+		<-_ searchSetStr5;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: .._university;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_university_to_group;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: .._group;;
+		_-> rrel_4:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_to_arc_from_university_to_group;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_group;;
+	
+		_-> rrel_set_3:: rrel_assign:: rrel_scp_var:: .._found_groups;;
+
+		// Если группы найдены, то перейти к выбору группы.
+		_=> nrel_then:: .._get_next_group;;
+		// Если группы не найдены, то перейти к печати в терминал, что все группы были пройдены.
+		_=> nrel_else:: .._print_that_all_groups_were_iterated;;
+	*);;
+
+	// ШАГ 4: ВЫБРАТЬ ГРУППУ ИЗ МНОЖЕСТВА НАЙДЕННЫХ ГРУПП
+	// Найти любую группу во множестве найденных групп, являющегося значением переменной .._found_groups.
+	_-> .._get_next_group
+	(*
+		<-_ searchElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._found_groups;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_group_set_to_group;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: .._group;;
+
+		// Если группы еще остались, то перейти к удалению выбранной группы из множества.
+		_=> nrel_then:: .._pop_group_from_set;;
+		// Если все группы были пройдены, то перейти к печати в терминал, что все группы были пройдены.
+		_=> nrel_else:: .._print_that_all_groups_were_iterated;;
+	*);;
+
+	// ШАГ 5: УДАЛИТЬ ВЫБРАННУЮ ГРУППУ ИЗ МНОЖЕСТВА НАЙДЕННЫХ ГРУПП
+	// Удалить sc-дугу между множеством в .._found_groups и выбранной группой.
+	_-> .._pop_group_from_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._arc_from_group_set_to_group;;
+
+		// Перейти к печати в терминал, что группа успешно извлечена из множества.
+		_=> nrel_goto:: .._print_that_university_group_was_found;;
+	*);;
+
+	// Напечатать в терминал, что группа успешно извлечена из множества.
+	_-> .._print_that_university_group_was_found
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Group was found in specified university];;
+
+		// Перейти к поиску всех студентов в выбранной группе.
+		_=> nrel_goto:: .._search_group_students;;
+	*);;
+
+	// ШАГ 6: ПОИСК ВСЕХ СТУДЕНТОВ В ТЕКУЩЕЙ ГРУППЕ
+	// Найти всех студентов, обучающихся в текущей группе, сформировать множество из них и записать в .._found_students.
+	_-> .._search_group_students
+	(*
+		<-_ searchSetStr5;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._group;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_group_to_student;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: .._student;;
+		_-> rrel_4:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_to_arc_from_group_to_student;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_student;;
+	
+		_-> rrel_set_3:: rrel_assign:: rrel_scp_var:: .._found_students;;
+
+		// Если студенты найдены, то перейти к выбору студента.
+		_=> nrel_then:: .._get_next_student;;
+		// Если студенты не найдены, то перейти к выбору следующей группы.
+		_=> nrel_else:: .._get_next_group;;
+	*);;
+
+	// ШАГ 7: ВЫБРАТЬ СТУДЕНТА ИЗ МНОЖЕСТВА НАЙДЕННЫХ СТУДЕНТОВ
+	// Найти любого студента во множестве найденных студентом, являющегося значением переменной .._found_students.
+	_-> .._get_next_student
+	(*
+		<-_ searchElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._found_students;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: .._arc_from_student_set_to_student;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: .._student;;
+		
+		// Если студенты еще остались, то перейти к удалению выбранного студента из множества.
+		_=> nrel_then:: .._pop_student_from_set;;
+		// Если все студенты были пройдены, то перейти к печати в терминал, что все студенты были пройдены.
+		_=> nrel_else:: .._print_that_all_students_were_iterated;;
+	*);;
+
+	// ШАГ 8: УДАЛИТЬ ВЫБРАННОГО СТУДЕНТА ИЗ МНОЖЕСТВА НАЙДЕННЫХ СТУДЕНТОВ
+	// Удалить sc-дугу между множеством в .._found_students и выбранным студентов.
+	_-> .._pop_student_from_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._arc_from_student_set_to_student;;
+
+		// Перейти к печати в терминал, что студент успешно извлечен из множества.
+		_=> nrel_goto:: .._print_that_group_student_was_found;;
+	*);;
+
+	// Напечатать в терминал, что студент успешно извлечен из множества.
+	_-> .._print_that_group_student_was_found
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Student was found in specified group];;
+
+		// Перейти к поиску средней оценки студента.
+		_=> nrel_goto:: .._search_student_average_mark;;
+	*);;
+
+	// ШАГ 9: ПОЛУЧИТЬ СРЕДНЮЮ ОЦЕНКУ СТУДЕНТА
+	// Найти связку отношения nrel_average_mark для текущего студента.
+	_-> .._search_student_average_mark
+	(*
+		<-_ searchElStr5;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._student;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_common_arc:: .._arc_from_student_to_mark;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: rrel_const:: rrel_node:: rrel_node_link:: .._average_mark;;
+		_-> rrel_4:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_to_arc_from_student_to_mark;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_average_mark;;
+
+		// Если средняя оценка найдена, то перейти к печати в терминал, что средняя оценка найдена.
+		_=> nrel_then:: .._print_that_average_mark_is_found;;
+		// Если средняя оценка не найдена, то перейти к печати в терминал, что средняя оценка не найдена.
+		_=> nrel_else:: .._print_that_average_mark_is_not_found;;
+	*);;
+
+	// Напечатать в терминал, что средняя оценка найдена.
+	_-> .._print_that_average_mark_is_found
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Average mark is found for specified student];;
+
+		// Перейти к проверке порога средней оценки.
+		_=> nrel_goto:: .._check_student_average_mark;;
+	*);;
+
+	// ШАГ 10: ПРОВЕРКА ПОРОГА СРЕДНЕЙ ОЦЕНКИ
+	// Проверить, что средняя оценка студента >= 8.0 (порог для "хороших оценок").
+	_-> .._check_student_average_mark
+	(*
+		<-_ ifGr;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._average_mark;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [8.0];;
+
+		// Перейти к проверке принадлежности студента к классу concept_student.
+		_=> nrel_then:: .._check_student_class;;
+		// Перейти к выбору следующего студента.
+		_=> nrel_else:: .._get_next_student;;
+	*);;
+
+	// ШАГ 11: ПРОВЕРКА ПРИНАДЛЕЖНОСТИ К КЛАССУ СТУДЕНТОВ
+	// Проверить, что студент принадлежит классу concept_student.
+	// Если студент принадлежит классу concept_student, то добавить sc-дугу базового вида между ними
+	// в результирующее множество.
+	_-> .._check_student_class
+	(*
+		<-_ searchSetStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: concept_student;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_class_to_student;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._student;;
+
+		_-> rrel_set_2:: rrel_fixed:: rrel_scp_var:: .._result_students;;
+
+		// Перейти к добавлению студента в результирующее множество.
+		_=> nrel_goto:: .._add_student_to_result_students_set;;
+	*);;
+
+	// ШАГ 12: ДОБАВИТЬ СТУДЕНТА В РЕЗУЛЬТИРУЮЩЕЕ МНОЖЕСТВО
+	// Создать sc-дугу базового вида от структуры в .._result_students к текущему студенту.
+	_-> .._add_student_to_result_students_set
+	(*
+		<-_ genElStr3;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._result_students;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: rrel_const_perm_pos_arc:: .._arc_from_result_students_set_to_student;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: .._student;;
+
+		// Перейти к печати в терминал, что студент успешно добавлен в результат.
+		_=> nrel_goto:: .._print_that_student_was_added_to_result_students_set;;
+	*);;
+
+	// Напечатать в терминал, что студент успешно добавлен в результат.
+	_-> .._print_that_student_was_added_to_result_students_set
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Student was added to result students set];;
+
+		// Перейти к выбору следующего студента.
+		_=> nrel_goto:: .._get_next_student;;
+	*);;
+
+	// Напечатать в терминал, что средняя оценка не найдена.
+	_-> .._print_that_average_mark_is_not_found
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Average mark is not found for specified student];;
+
+		// Перейти к выбору следующего студента.
+		_=> nrel_goto:: .._get_next_student;;
+	*);;
+
+	// Напечатать в терминал, что все студенты в группе были обработаны.
+	_-> .._print_that_all_students_were_iterated
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [All students were iterated in specified group];;
+
+		// Перейти к удалению временного множества студентов.
+		_=> nrel_goto:: .._erase_found_students_set;;
+	*);;
+
+	// Удалить временное множество студентов.
+	_-> .._erase_found_students_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._found_students;;
+
+		// Перейти к выбору следующей группы.
+		_=> nrel_goto:: .._get_next_group;;
+	*);;
+
+	// Напечатать в терминал, что все группы в университете были обработаны.
+	_-> .._print_that_all_groups_were_iterated
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [All groups were iterated in specified university];;
+
+		// Перейти к удалению временного множества групп.
+		_=> nrel_goto:: .._erase_found_groups_set;;
+	*);;
+
+	// Удалить временное множество групп.
+	_-> .._erase_found_groups_set
+	(*
+		<-_ eraseEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: rrel_erase:: .._found_groups;;
+
+		// Перейти к завершению программы.
+		_=> nrel_goto:: .._return_result;;
+	*);;
+
+	// Напечатать в терминал, что указанный аргумент не является университетом.
+	_-> .._print_that_specified_argument_is_not_university
+	(*
+		<-_ printNl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: [Specified argument is not university];;
+
+		// Перейти к завершению программы.
+		_=> nrel_goto:: .._return_result;;
+	*);;
+
+	// Завершить программу.
+	_-> .._return_result
+	(*
+		<-_ return;;
+	*);;
+*);;
+*];;

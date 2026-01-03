@@ -1,0 +1,52 @@
+sc_agent_of_removing_elements_of_the_struct
+=> nrel_main_idtf:
+	[агентная scp-программа удаления элементов структуры] (* <- lang_ru;; *);
+	[agent scp-program of removing elements of the struct] (* <- lang_en;; *);
+
+<- abstract_sc_agent;
+
+=> nrel_sc_agent_action_class:
+    action_to_removing_elements_of_the_struct;
+
+=> nrel_primary_initiation_condition: 
+	(sc_event_after_generate_outgoing_arc => action_initiated);
+
+=> nrel_initiation_condition_and_result: 
+	(..sc_agent_of_removing_elements_of_the_struct_condition => ..sc_agent_of_removing_elements_of_the_struct_result);
+
+<= nrel_sc_agent_key_sc_elements: 
+	{
+	action_initiated;
+	action;
+	action_to_removing_elements_of_the_struct
+	};
+
+=> nrel_inclusion: 
+	.platform_independent_realization_of_sc_agent_of_removing_elements_of_the_struct
+	(*
+	<- platform_independent_abstract_sc_agent;;
+	<= nrel_sc_agent_program: 
+		{
+		agent_of_removing_elements_of_the_struct
+		};;		
+
+	-> sc_agent_of_removing_elements_of_the_struct_scp    
+		(* <|- active_sc_agent;; *);;  
+	*);;
+
+..sc_agent_of_removing_elements_of_the_struct_condition
+= [*
+	action_to_removing_elements_of_the_struct _-> .._action;;
+	action_initiated _-> .._action;;
+	action _-> .._action;;
+	.._action _-> .._parameter;;
+*];;
+
+..sc_agent_of_removing_elements_of_the_struct_result
+= [*
+	action_to_removing_elements_of_the_struct _-> .._action;;
+	action_finished _-> .._action;;
+	action _-> .._action;;
+	.._action _=> nrel_result:: .._answer;;
+	.._action _-> .._parameter;;
+*];;

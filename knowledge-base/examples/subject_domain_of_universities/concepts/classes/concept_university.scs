@@ -1,0 +1,9 @@
+concept_university
+<- sc_node_class;
+=> nrel_main_idtf:
+    [университет]
+    (*
+        <- lang_ru;;
+    *);
+<= nrel_inclusion:
+    concept_educational_organization;;

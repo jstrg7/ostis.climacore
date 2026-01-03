@@ -1,0 +1,64 @@
+// ==========================================================================================
+// ТЕСТОВАЯ ПРОГРАММА
+// ==========================================================================================
+// НАЗНАЧЕНИЕ:
+//   Тестовая программа для проверки программы поиска студентов БГУИРа, которые имеют хорошие оценки.
+//
+// ==========================================================================================
+
+test_program_for_searching_bsuir_students_with_good_marks
+=> nrel_main_idtf:
+	[Тестовая программа поиска студентов БГУИРа, которые имеют хорошие оценки]
+    (*
+        <- lang_ru;;
+    *);
+	[Test program for searching BSUIR students with good marks]
+    (*
+        <- lang_en;;
+    *);
+<- scp_program;
+-> rrel_key_sc_element:
+    .._process;;
+
+test_program_for_searching_bsuir_students_with_good_marks = [*
+.._process
+<-_ scp_process;
+
+<=_ nrel_decomposition_of_action:: _...
+(*
+	_-> rrel_1:: .._call_program_for_searching_bsuir_students_with_good_marks
+	(*
+		<-_ call;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: program_for_searching_students_with_good_marks;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._params
+		(* 
+			_-> rrel_1:: rrel_fixed:: rrel_scp_const:: BSUIR;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_var:: .._result_students;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: .._descriptor;;
+					
+		_=> nrel_goto:: .._wait_for_result_of_program_for_searching_bsuir_students_with_good_marks;;
+	*);;
+	_-> .._wait_for_result_of_program_for_searching_bsuir_students_with_good_marks
+	(*
+		<-_ waitReturn;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._descriptor;;
+						
+		_=> nrel_goto:: .._print_result_students;;
+	*);;
+	_-> .._print_result_students
+	(*
+		<-_ printEl;;
+
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: .._result_students;;
+
+		_=> nrel_goto:: .._return;;
+	*);;
+	_-> .._return
+	(*
+		<-_ return;;
+	*);;
+*);;
+*];;

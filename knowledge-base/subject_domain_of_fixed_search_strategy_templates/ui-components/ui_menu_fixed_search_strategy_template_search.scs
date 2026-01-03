@@ -1,0 +1,30 @@
+ui_menu_fixed_search_strategy_template_search
+<- ui_user_command_class_atom;
+<- ui_user_command_class_view_kb;
+=> nrel_main_idtf: 
+	[Какие структуры соответствуют заданному шаблону с фиксированной стратегией поиска?]
+	(*
+		<- lang_ru;;
+	*);
+	[What are structures that correspondents to template with fixed search strategy?]
+	(*
+		<- lang_en;;
+	*);
+=> ui_nrel_command_template:
+	[*
+		action_process_fixed_search_strategy_template _-> ._action_process_fixed_search_strategy_template_instance
+		(*
+			_-> rrel_1:: ui_arg_1;;
+			_-> rrel_2:: ui_arg_2;;
+		*);;
+		._action_process_fixed_search_strategy_template_instance <-_ action;;
+	*];
+=> ui_nrel_command_lang_template:
+	[Какие структуры соответствуют заданному шаблону с фиксированной стратегией поиска $ui_arg_1?]
+	(*
+		<- lang_ru;;
+	*);
+	[What are structures that correspondents to template with fixed search strategy $ui_arg_1?] 
+	(* 
+		<- lang_en;;
+	*);;

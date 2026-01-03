@@ -1,0 +1,8 @@
+taxonomy_relation
+<- sc_node_class;
+=> nrel_main_idtf:
+	[отношение таксономии] 
+	(* <- lang_ru;; *);
+=> nrel_main_idtf:
+	[taxonomy relation] 
+	(* <- lang_en;; *);;
