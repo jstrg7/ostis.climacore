@@ -1,0 +1,5 @@
+window_1
+<- concept_window;
+=> nrel_name: [окно 1];
+=> nrel_id: [win_1];
+-> rrel_located_at: room_1;;

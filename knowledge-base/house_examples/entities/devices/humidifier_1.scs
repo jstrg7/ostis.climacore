@@ -1,0 +1,5 @@
+humidifier_1
+<- concept_humidifier;
+=> nrel_name: [увлажнитель 1];
+=> nrel_id: [hum_1];
+-> rrel_located_at: room_1;;

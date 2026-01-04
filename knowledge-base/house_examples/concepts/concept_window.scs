@@ -1,0 +1,5 @@
+concept_window
+<- sc_node_class;
+<- concept_device;
+=> nrel_main_idtf: [окно];
+-> rrel_fixes_state: concept_co2_state_high;;
