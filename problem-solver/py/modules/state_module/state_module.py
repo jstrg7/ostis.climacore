@@ -5,13 +5,11 @@ Distributed under the MIT License
 """
 
 from sc_kpm import ScModule
-from .state_detection_agent import StateDetectionAgent
-from .create_measurement_agent import CreateMeasurementAgent
+from .room_state_detection_agent import RoomStateDetectionAgent
 
 
 class StateModule(ScModule):
     def __init__(self):
         super().__init__(
-            StateDetectionAgent(),
-            CreateMeasurementAgent()
+            RoomStateDetectionAgent()
         )
