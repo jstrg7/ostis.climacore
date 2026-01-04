@@ -6,8 +6,12 @@ Distributed under the MIT License
 
 from sc_kpm import ScModule
 from .state_detection_agent import StateDetectionAgent
+from .create_measurement_agent import CreateMeasurementAgent
 
 
 class StateModule(ScModule):
     def __init__(self):
-        super().__init__(StateDetectionAgent())
+        super().__init__(
+            StateDetectionAgent(),
+            CreateMeasurementAgent()
+        )
