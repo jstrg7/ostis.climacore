@@ -23,5 +23,3 @@ ConanPresets.json
 !CMakeLists.txt
 !problem-solver/CMakeLists.txt
 !problem-solver/cxx/CMakeLists.txt
-
-knowledge-base/house_examples

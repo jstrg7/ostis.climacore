@@ -1,0 +1,19 @@
+misha 
+<- concept_user;
+=> nrel_main_idtf: [Миша];;
+
+prefs_misha 
+<- concept_user_preferences;
+-> rrel_owner: misha;
+=> nrel_temp_range:
+    ...
+    (*
+        => nrel_min: [21.0];;
+        => nrel_max: [24.0];;
+    *);
+=> nrel_humidity_range:
+    ...
+    (*
+        => nrel_min: [45.0];;
+        => nrel_max: [60.0];;
+    *);;

@@ -1,0 +1,24 @@
+room_2
+<- concept_room;
+=> nrel_main_idtf: [bce];;
+/*
+<~ rrel_current_measurement:
+    ..measurement_1
+    (*
+        => nrel_timestamp: [01. 01. 2026, 0:00];;
+        => nrel_temp: [22.4];;
+        => nrel_hum: [20];;
+        => nrel_co2: [1500];;
+    *);;
+
+<~ rrel_current_state:
+    ..state
+    (*
+        => nrel_temp_state: concept_state_normal;;
+        => nrel_hum_state: concept_state_low;;
+        => nrel_co2_state: concept_state_high;;
+    *);;
+*/
+
+
+
