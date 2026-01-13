@@ -6,6 +6,7 @@ Distributed under the MIT License
 
 import argparse
 from sc_kpm import ScServer
+from modules.state_module.state_module import StateModule
 from modules.solutions_module.solutions_module import SolutionsModule
 
 SC_SERVER_PROTOCOL = "protocol"
@@ -23,6 +24,7 @@ def main(args: dict):
 
     with server.connect():
         modules = [
+            StateModule(),
             SolutionsModule()
         ]
         server.add_modules(*modules)
