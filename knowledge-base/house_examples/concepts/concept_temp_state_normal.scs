@@ -2,4 +2,5 @@ concept_temp_state_normal
 <- sc_node_class;
 <- concept_state;
 <- concept_state_normal;
+<- concept_temp_state;
 => nrel_main_idtf: [нормальное состояние температуры];;
