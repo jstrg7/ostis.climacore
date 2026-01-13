@@ -59,7 +59,7 @@ class RoomStateDetectionAgent(ScAgentClassic):
     def run(self, action_node: ScAddr) -> ScResult:
         self.logger.info("RoomStateDetectionAgent started")
         [room, house] = get_action_arguments(action_node, 2)
-        #rooms = self.get_rooms(house)
+        # rooms = self.get_rooms(house)
         temp_link = self.get_sensors(room, ScKeynodes.resolve("concept_temp_sensor", sc_type.VAR_NODE_CLASS))
         hum_link = self.get_sensors(room, ScKeynodes.resolve("concept_humidity_sensor", sc_type.VAR_NODE_CLASS))
         co2_link = self.get_sensors(room, ScKeynodes.resolve("concept_co2_sensor", sc_type.VAR_NODE_CLASS))
@@ -206,9 +206,9 @@ class RoomStateDetectionAgent(ScAgentClassic):
         )
         search_results = search_by_template(templ)
         co2_state = ScAddr(0)
-        if float(get_link_content_data(search_results[0].get("_co2_link"))) <= 800: co2_state = ScKeynodes.resolve("concept_state_normal", sc_type.CONST_NODE_CLASS)
-        else: co2_state = ScKeynodes.resolve("concept_state_high", sc_type.CONST_NODE_CLASS)
-        return ScKeynodes.resolve(f"concept_state_{get_interval(l=temp[0], r=temp[1], value=float(get_link_content_data(search_results[0].get("_temp_link"))))}", sc_type.CONST_NODE_CLASS), ScKeynodes.resolve(f"concept_state_{get_interval(l=hum[0], r=hum[1], value=float(get_link_content_data(search_results[0].get("_hum_link"))))}", sc_type.CONST_NODE_CLASS), co2_state
+        if float(get_link_content_data(search_results[0].get("_co2_link"))) <= 800: co2_state = ScKeynodes.resolve("concept_co2_state_normal", sc_type.CONST_NODE_CLASS)
+        else: co2_state = ScKeynodes.resolve("concept_co2_state_high", sc_type.CONST_NODE_CLASS)
+        return ScKeynodes.resolve(f"concept_temp_state_{get_interval(l=temp[0], r=temp[1], value=float(get_link_content_data(search_results[0].get("_temp_link"))))}", sc_type.CONST_NODE_CLASS), ScKeynodes.resolve(f"concept_hum_state_{get_interval(l=hum[0], r=hum[1], value=float(get_link_content_data(search_results[0].get("_hum_link"))))}", sc_type.CONST_NODE_CLASS), co2_state
 
 
     def delete_previous_state(self, room: ScAddr) -> None:
@@ -266,7 +266,9 @@ class RoomStateDetectionAgent(ScAgentClassic):
         )
 
         search_results = search_by_template(templ)
-        if not search_results: return None
+        if not search_results:
+            print("nothing to delete") 
+            return None
         for i in range(len(search_results)):
             element = search_results[0].get(i)
             if element != room and not is_relation(element) and not is_state(element): erase_elements(element)
