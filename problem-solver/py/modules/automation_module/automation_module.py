@@ -5,11 +5,12 @@ Distributed under the MIT License
 """
 
 from sc_kpm import ScModule
+from .room_state_detection_agent import RoomStateDetectionAgent
 from .create_instructions_agent import CreateInstructionsAgent
 
-
-class SolutionsModule(ScModule):
+class AutomationModule(ScModule):
     def __init__(self):
         super().__init__(
+            RoomStateDetectionAgent(),
             CreateInstructionsAgent()
         )

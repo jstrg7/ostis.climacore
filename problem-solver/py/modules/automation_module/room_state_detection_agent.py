@@ -267,7 +267,6 @@ class RoomStateDetectionAgent(ScAgentClassic):
 
         search_results = search_by_template(templ)
         if not search_results:
-            print("nothing to delete") 
             return None
         for i in range(len(search_results)):
             element = search_results[0].get(i)
