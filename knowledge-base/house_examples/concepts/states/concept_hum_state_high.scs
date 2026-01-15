@@ -1,0 +1,7 @@
+concept_hum_state_high
+<- sc_node_class;
+<- concept_state;
+<- concept_state_high;
+<- concept_hum_state;
+-> rrel_is_opposite_to: concept_hum_state_low;
+=> nrel_main_idtf: [повышенное состояние влажности];;
