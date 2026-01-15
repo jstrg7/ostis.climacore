@@ -1,6 +1,13 @@
 misha 
 <- concept_user;
-=> nrel_main_idtf: [Миша];;
+=> nrel_main_idtf: [Миша];
+=> nrel_device_control_history: {
+    .action1
+    (*
+        => nrel_device: heater_1;;
+        => rrel_change_to_state: is_on;;
+    *)
+};;
 
 prefs_misha 
 <- concept_user_preferences;
@@ -17,3 +24,5 @@ prefs_misha
         => nrel_min: [45.0];;
         => nrel_max: [60.0];;
     *);;
+
+
