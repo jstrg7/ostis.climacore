@@ -1,0 +1,12 @@
+scenario_1
+<- concept_scenario;
+-> rrel_owner: misha;
+=> nrel_timestamp: [2026-01-18T00:25:00];
+=> nrel_instructions: {
+    ..instruction1
+    (*
+        => nrel_temp: [23];;
+        => nrel_hum: [60];;
+        => nrel_room: room_1;;
+    *)
+};;

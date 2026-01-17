@@ -6,9 +6,11 @@ Distributed under the MIT License
 
 from sc_kpm import ScModule
 from .create_scenario_state_agent import CreateScenarioStateAgent
+from .create_scenario_instructions_agent import CreateScenarioInstructionsAgent
 
 class ScenarioModule(ScModule):
     def __init__(self):
         super().__init__(
-            CreateScenarioStateAgent()
+            CreateScenarioStateAgent(),
+            CreateScenarioInstructionsAgent()
         )

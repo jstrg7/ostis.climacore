@@ -46,7 +46,7 @@ logging.basicConfig(
 
 class CreateScenarioStateAgent(ScAgentClassic):
     def __init__(self):
-        super().__init__("action_create_scenario_state_agent")
+        super().__init__("action_create_scenario_state")
 
     def on_event(self, action_class: ScAddr, arc: ScAddr, action: ScAddr) -> ScResult:
         result = self.run(action)
@@ -63,6 +63,7 @@ class CreateScenarioStateAgent(ScAgentClassic):
             self.logger.info("CreateScenarioStateAgent: this scenario is not actual yet.")
             return ScResult.OK
         instructions = self.get_instructions(scenario)
+        print(len(instructions))
         for instruction in instructions:
             room, temp, hum = instruction
             temp_state, hum_state, co2_state = self.get_state(room, temp=[temp - 0.5, temp + 0.5], hum=[hum - 1.0, hum + 1.0])
