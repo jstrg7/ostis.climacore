@@ -115,6 +115,17 @@ Steps to install and run the application directly on your system.
         npm run build
         cd ../..
         ```
+10. **Install Python dependencies for the Python problem solver:**
+
+    The project includes Python agents for extended functionality. You need to create a virtual environment and install the required packages:
+
+    ```sh
+    cd ./problem-solver/py
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+    cd ../..
+    ```
 
 ## Building the OSTIS System
 
