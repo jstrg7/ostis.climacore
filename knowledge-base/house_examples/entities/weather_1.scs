@@ -2,7 +2,5 @@ weather_1
 <- concept_weather;
 => nrel_temp: [22.4];
 => nrel_hum: [80];
-=> nrel_wind_speed: [3];
-=> nrel_co_level: [1];
 => nrel_timestamp: [...];
 -> rrel_at: house_example;;
