@@ -152,7 +152,13 @@ Steps to install and run the application directly on your system.
     ./scripts/start.sh web
     ```
 
-3.  **Open in your browser:** [http://localhost:8000](http://localhost:8000)
+3. **Statt `py-server` (in another terminal):**
+    ```sh
+    cd ./problem-solver/py && source ./.venv/bin/activate && python3 server.py
+    ```
+
+
+4.  **Open in your browser:** [http://localhost:8000](http://localhost:8000)
 
     ![Example interface](https://i.imgur.com/6SehI5s.png)
 
