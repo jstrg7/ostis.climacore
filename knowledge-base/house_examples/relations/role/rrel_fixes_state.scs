@@ -1,5 +1,0 @@
-rrel_fixes_state
-<- sc_node_role_relation;
-<- concept_relation;
-=> nrel_main_idtf:
-    [исправляет состояние'];;

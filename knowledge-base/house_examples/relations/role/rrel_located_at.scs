@@ -1,5 +1,0 @@
-rrel_located_at
-<- sc_node_role_relation;
-<- concept_relation;
-=> nrel_main_idtf:
-    [расположено в'];;
