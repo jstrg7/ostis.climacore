@@ -3,4 +3,5 @@ concept_hum_state_low
 <- concept_state;
 <- concept_hum_state;
 <- concept_state_low;
+-> rrel_is_opposite_to: concept_hum_state_high;
 => nrel_main_idtf: [пониженное состояние влажности];;
