@@ -42,6 +42,8 @@ from sc_kpm import ScKeynodes
 from datetime import datetime
 from .additions import get_interval
 
+PYOWM_TOKEN = "YOUR_TOKEN_BOT"
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s | %(name)s | %(message)s", datefmt="[%d-%b-%y %H:%M:%S]"
@@ -90,7 +92,7 @@ class EditWeatherConditionsAgent(ScAgentClassic):
         try:
             config_dict = get_default_config()
             config_dict['language'] = 'en'  
-            owm = OWM('YOUR_OWM_TOKEN', config_dict) 
+            owm = OWM(PYOWM_TOKEN, config_dict) 
             weather_manager = owm.weather_manager()
             observation = weather_manager.weather_at_place(location)
             status = observation.weather.status
@@ -167,7 +169,6 @@ class EditWeatherConditionsAgent(ScAgentClassic):
         )
 
         search_results = search_by_template(templ)
-        state = search_results[0].get("_state_class")
         if not search_results: return None
         for i in range(1, 8):
             element = search_results[0].get("_arc" + str(i))
@@ -244,24 +245,39 @@ class EditWeatherConditionsAgent(ScAgentClassic):
             templ.quintuple(
                 device,
                 (sc_type.VAR_PERM_POS_ARC, "_arc1"),
-                sc_type.VAR_NODE, 
+                (sc_type.VAR_NODE, "_state"),
                 (sc_type.VAR_PERM_POS_ARC, "_arc2"),
                 ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_ROLE)
             )
+            templ.triple(
+                ScKeynodes.resolve("concept_temp_state", sc_type.CONST_NODE_CLASS),
+                sc_type.VAR_PERM_POS_ARC,
+                "_state"
+            )
+            search_results = search_by_template(templ)
+            for result in search_results:
+                erase_elements(
+                    result.get("_arc2"),
+                    result.get("_arc1")
+                )
             templ.quintuple(
                 device,
                 (sc_type.VAR_PERM_POS_ARC, "_arc3"),
-                sc_type.VAR_NODE, 
+                (sc_type.VAR_NODE, "_state"),
                 (sc_type.VAR_PERM_POS_ARC, "_arc4"),
                 ScKeynodes.resolve("rrel_causes_state", sc_type.CONST_NODE_ROLE)
             )
-            search_results = search_by_template(templ)
-            erase_elements(
-                search_results[0].get("_arc2"),
-                search_results[0].get("_arc1"),
-                search_results[0].get("_arc4"),
-                search_results[0].get("_arc3"),
+            templ.triple(
+                ScKeynodes.resolve("concept_temp_state", sc_type.CONST_NODE_CLASS),
+                sc_type.VAR_PERM_POS_ARC,
+                "_state"
             )
+            search_results = search_by_template(templ)
+            for result in search_results:
+                erase_elements(
+                    result.get("_arc4"),
+                    result.get("_arc3")
+                )
 
             if get_interval(temp_min, temp_max, temp) == 'normal': return None
 
@@ -269,7 +285,7 @@ class EditWeatherConditionsAgent(ScAgentClassic):
             templ.quintuple(
                 device,
                 sc_type.VAR_PERM_POS_ARC,
-                ScKeynodes.resolve(f"concept_temp_state_{get_interval(temp_min, temp_max, temp)}"),
+                ScKeynodes.resolve(f"concept_temp_state_{get_interval(temp_min, temp_max, temp)}", sc_type.VAR_NODE_CLASS),
                 sc_type.VAR_PERM_POS_ARC,
                 ScKeynodes.resolve("rrel_causes_state", sc_type.CONST_NODE_ROLE)
             )
@@ -277,7 +293,7 @@ class EditWeatherConditionsAgent(ScAgentClassic):
             generate_by_template(templ)
             templ = ScTemplate()
             templ.quintuple(
-                ScKeynodes.resolve(f"concept_temp_state_{get_interval(temp_min, temp_max, temp)}"),
+                ScKeynodes.resolve(f"concept_temp_state_{get_interval(temp_min, temp_max, temp)}", sc_type.VAR_NODE_CLASS),
                 sc_type.VAR_PERM_POS_ARC,
                 (sc_type.VAR_NODE, "_searched_state"),
                 sc_type.VAR_PERM_POS_ARC,
@@ -294,6 +310,7 @@ class EditWeatherConditionsAgent(ScAgentClassic):
                 ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_ROLE)
             )
             generate_by_template(templ)
+
         return None
 
 
