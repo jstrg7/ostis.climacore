@@ -1,0 +1,32 @@
+BSUIR
+<- concept_university;
+=> nrel_main_idtf:
+    [БГУИР]
+    (*
+        <- lang_ru;;
+    *);
+-> rrel_group:
+    group1;
+    group2;;
+
+group1
+=> nrel_main_idtf:
+    [Группа 1]
+    (*
+        <- lang_ru;;
+    *);
+<- concept_group;
+-> rrel_student:
+    Petrov;
+    Ivanov;;
+
+group2
+=> nrel_main_idtf:
+    [Группа 2]
+    (*
+        <- lang_ru;;
+    *);
+<- concept_group;
+-> rrel_student:
+    Olegov;
+    Sidorov;;

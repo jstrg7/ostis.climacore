@@ -1,0 +1,74 @@
+nrel_fixed_search_strategy_template
+<- sc_node_non_role_relation;
+<- concept_template_type;
+=> nrel_main_idtf:
+    [sc-шаблон с фиксированной стратегией поиска*]
+    (*
+        <- lang_ru;;
+    *);;
+
+nrel_search_template
+<- sc_node_non_role_relation;
+<- concept_template_type;
+=> nrel_main_idtf:
+    [sc-шаблон поиска sc-конструкции*]
+    (*
+        <- lang_ru;;
+    *);;
+
+nrel_search_set_template
+<- sc_node_non_role_relation;
+<- concept_template_type;
+=> nrel_main_idtf:
+    [sc-шаблон поиска множества sc-конструкций*]
+    (*
+        <- lang_ru;;
+    *);;
+
+rrel_template
+<- sc_node_role_relation;
+=> nrel_main_idtf:
+    [sc-шаблон']
+    (*
+        <- lang_ru;;
+    *);;
+
+rrel_template_input_params
+<- sc_node_role_relation;
+=> nrel_main_idtf:
+    [входные параметры sc-шаблона']
+    (*
+        <- lang_ru;;
+    *);;
+
+rrel_template_output_params
+<- sc_node_role_relation;
+=> nrel_main_idtf:
+    [выходные параметры sc-шаблона']
+    (*
+        <- lang_ru;;
+    *);;
+
+rrel_init_template
+<- sc_node_role_relation;
+=> nrel_main_idtf:
+    [начальный sc-шаблон']
+    (*
+        <- lang_ru;;
+    *);;
+
+rrel_next_template
+<- sc_node_role_relation;
+=> nrel_main_idtf:
+    [следующий sc-шаблон']
+    (*
+        <- lang_ru;;
+    *);;
+
+concept_template_type
+<- sc_node_class;
+=> nrel_main_idtf:
+    [тип sc-шаблона]
+    (*
+        <- lang_ru;;
+    *);;

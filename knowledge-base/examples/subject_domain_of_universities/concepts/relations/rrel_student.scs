@@ -1,0 +1,11 @@
+rrel_student
+<- sc_node_role_relation;
+=> nrel_main_idtf:
+    [студент']
+    (*
+        <- lang_ru;;
+    *);
+=> nrel_first_domain:
+    concept_group;
+=> nrel_second_domain:
+    concept_student;;

@@ -1,0 +1,53 @@
+@search_students_template = {
+    rrel_init_template: {
+        rrel_template: [*
+            @input_param1 = (.._university <-_ concept_university);;
+            rrel_group _-> (.._university _-> .._group);;
+            @output_param1 = (.._group <-_ concept_group);;
+        *];
+        rrel_template_input_params: {
+            @input_param1
+        };
+        rrel_template_output_params: {
+            @output_param1
+        }
+    } (* <- nrel_search_set_template;; *);
+    rrel_next_template: {
+        rrel_init_template: {
+            rrel_template: [*
+                @input_param1 = (.._group <-_ concept_group);;
+                rrel_student _-> (.._group _-> .._student);;
+                @output_param1 = (.._student <-_ concept_student);;
+            *];
+            rrel_template_input_params: {
+                @input_param1
+            };
+            rrel_template_output_params: {
+                @output_param1
+            }
+        } (* <- nrel_search_set_template;; *);
+        rrel_next_template: {
+            rrel_init_template: {
+                rrel_template: [*
+                    @input_param1 = (.._student <-_ concept_student);;
+                    nrel_fio _-> (.._student _=> .._fio);;
+                    @output_param1 = (.._fio <-_ lang_ru);;
+                *];
+                rrel_template_input_params: {
+                    @input_param1
+                };
+                rrel_template_output_params: {
+                    @output_param1
+                }
+            } (* <- nrel_search_template;; *)
+        } (* <- nrel_fixed_search_strategy_template;; *)
+    } (* <- nrel_fixed_search_strategy_template;; *)
+};;
+
+@search_students_template
+<- nrel_fixed_search_strategy_template;
+=> nrel_main_idtf:
+    [Шаблон поиска студентов университета]
+    (*
+        <- lang_ru;;
+    *);;
