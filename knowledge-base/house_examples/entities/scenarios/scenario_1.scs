@@ -7,5 +7,6 @@ scenario_1
         => nrel_temp: [23];;
         => nrel_hum: [60];;
         => nrel_room: room_1;;
+        => nrel_time: [some time];;
     *)
 };;
