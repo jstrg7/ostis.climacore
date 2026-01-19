@@ -1,0 +1,14 @@
+room_1
+<- concept_room;
+=> nrel_main_idtf: [abc];;
+
+/*
+=> nrel_machine_instructions: {
+    ..instruction
+    (*
+        => nrel_device: device_1;;
+        -> rrel_change_to_state: is_disabled;;
+    *)
+}
+*/
+

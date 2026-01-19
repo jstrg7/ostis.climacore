@@ -1,0 +1,53 @@
+sc_agent_of_finding_initiated_action_for_a_specific_performer
+=> nrel_main_idtf:
+	[sc-агент поиска действий, закреплённых за конкретным исполнителем] (* <- lang_ru;; *);
+	[sc-agent of finding actions assigned for a specific performer] (* <- lang_en;; *);
+
+<- abstract_sc_agent;
+
+=> nrel_sc_agent_action_class:
+    action_of_finding_initiated_action_for_a_specific_performer;
+
+=> nrel_primary_initiation_condition: 
+	(sc_event_after_generate_outgoing_arc => action_initiated);
+
+=> nrel_initiation_condition_and_result: 
+	(..sc_agent_of_finding_initiated_action_for_a_specific_performer_condition => ..sc_agent_of_finding_initiated_action_for_a_specific_performer_result);
+
+<= nrel_sc_agent_key_sc_elements: 
+	{
+	action_initiated;
+	action;
+	action_of_finding_initiated_action_for_a_specific_performer
+	};
+
+=> nrel_inclusion: 
+	.platform_independent_realization_of_sc_agent_of_search_initiated_action_for_a_specific_performer
+	(*
+	<- platform_independent_abstract_sc_agent;;
+	<= nrel_sc_agent_program: 
+		{
+		agent_of_finding_initiated_action_for_a_specific_performer	
+		};;
+
+	-> sc_agent_of_search_initiated_action_for_a_specific_performer_scp    
+		(* <- active_sc_agent;; *);;  
+	*);;
+
+..sc_agent_of_finding_initiated_action_for_a_specific_performer_condition
+= [*
+	action_of_finding_initiated_action_for_a_specific_performer _-> .._action;;
+	action_initiated _-> .._action;;
+	action _-> .._action;;
+	.._action _-> .._parameter;;
+*];;
+
+..sc_agent_of_finding_initiated_action_for_a_specific_performer_result
+= [*
+	action_of_finding_initiated_action_for_a_specific_performer _-> .._action;;
+	action_finished _-> .._action;;
+	action _-> .._action;;
+	.._action _=> nrel_result:: .._answer;;
+	.._action _-> .._parameter;;
+*];;
+

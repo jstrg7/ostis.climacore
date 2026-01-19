@@ -1,0 +1,25 @@
+knowledge_base_ims_specification
+    <- concept_reusable_component_specification;;
+
+knowledge_base_ims_specification = [*
+-> rrel_key_sc_element : knowledge_base_ims
+(*
+    <- concept_reusable_component;;
+    <- concept_nonatomic_reusable_component;;
+    <- concept_independent_reusable_component;;
+    <- concept_reusable_kb_component;;
+    <- concept_reusable_dynamically_installed_component;;
+    <- concept_reusable_source_code_component;;
+
+    => nrel_main_idtf: [IMS knowledge base](* <- lang_en;; *);;
+    => nrel_main_idtf: [База знаний IMS](* <- lang_ru;; *);;
+
+    => nrel_authors: ... (* -> OSTIS;; *);;
+    => nrel_note: [Компонент является базой знаний Метасистемы OSTIS.] (* <- lang_ru;; *);;
+    => nrel_explanation: [Компонент содержит онтологии верхнего уровня.] (*<- lang_ru;; *);;
+
+    => nrel_component_dependencies: ... (* <- empty_set ;; *);;
+    => nrel_component_address: [https://github.com/ostis-ai/ims.ostis.kb] (* <- concept_github_url;; *);;
+    => nrel_installation_method: ... (* <- concept_component_dynamically_installed_method;; *);;
+*);;
+*];;

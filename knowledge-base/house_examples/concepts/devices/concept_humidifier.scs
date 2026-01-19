@@ -1,0 +1,5 @@
+concept_humidifier
+<- sc_node_class;
+<- concept_device;
+=> nrel_main_idtf: [увлажнитель воздуха];
+-> rrel_fixes_state: concept_hum_state_low;;

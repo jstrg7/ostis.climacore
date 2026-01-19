@@ -69,7 +69,17 @@ class RoomStateDetectionAgent(ScAgentClassic):
         temp_min, temp_max, hum_min, hum_max = self.get_preferences(user)
         temp_state, hum_state, co2_state = self.get_state(room, temp=[temp_min, temp_max], hum=[hum_min, hum_max])
         self.delete_previous_state(room)
-        self.set_new_state(room, temp_state, hum_state, co2_state)
+        temp = float(get_link_content_data(temp_link))
+        hum = float(get_link_content_data(hum_link))
+        co2 = float(get_link_content_data(co2_link))
+        self.set_new_state(
+            room, 
+            temp_state, 
+            hum_state, 
+            co2_state, 
+            temp - ((temp_max + temp_min) / 2),
+            hum - ((hum_max + hum_min) / 2),
+            co2 - 800)
 
         
         link = generate_link(
@@ -246,24 +256,46 @@ class RoomStateDetectionAgent(ScAgentClassic):
         templ.quintuple(
             "_state",
             sc_type.VAR_COMMON_ARC,
-            sc_type.VAR_NODE,
+            (sc_type.VAR_NODE, "_temp_state"),
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_temp_state", sc_type.CONST_NODE_NON_ROLE)
         )
         templ.quintuple(
             "_state",
             sc_type.VAR_COMMON_ARC,
-            sc_type.VAR_NODE,
+            (sc_type.VAR_NODE, "_hum_state"),
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_hum_state", sc_type.CONST_NODE_NON_ROLE)
         )
         templ.quintuple(
             "_state",
             sc_type.VAR_COMMON_ARC,
-            sc_type.VAR_NODE,
+            (sc_type.VAR_NODE, "_co2_state"),
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_co2_state", sc_type.CONST_NODE_NON_ROLE)
         )
+        templ.quintuple(
+            "_co2_state",
+            sc_type.VAR_COMMON_ARC,
+            sc_type.VAR_NODE_LINK,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            "_hum_state",
+            sc_type.VAR_COMMON_ARC,
+            sc_type.VAR_NODE_LINK,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            "_temp_state",
+            sc_type.VAR_COMMON_ARC,
+            sc_type.VAR_NODE_LINK,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+
 
         search_results = search_by_template(templ)
         if not search_results:
@@ -276,7 +308,19 @@ class RoomStateDetectionAgent(ScAgentClassic):
     
 
 
-    def set_new_state(self, room: ScAddr, temp_state: ScAddr, hum_state: ScAddr, co2_state: ScAddr) -> None:
+    def set_new_state(self, room: ScAddr, temp_state: ScAddr, hum_state: ScAddr, co2_state: ScAddr, temp_dev: float, hum_dev: float, co2_dev: float) -> None:
+        def generate_link_with_data(data: float) -> ScAddr:
+            construction = ScConstruction()
+            link_content = ScLinkContent(data, ScLinkContentType.FLOAT)
+            construction.generate_link(sc_type.CONST_NODE_LINK, link_content, 'link')
+            link = generate_elements(construction)[0]
+            return link
+        
+
+        temp_link = generate_link_with_data(temp_dev)
+        hum_link = generate_link_with_data(hum_dev)
+        co2_link = generate_link_with_data(co2_dev)
+
         templ = ScTemplate()
         templ.quintuple(
             (sc_type.VAR_NODE, "_state"),
@@ -305,6 +349,27 @@ class RoomStateDetectionAgent(ScAgentClassic):
             co2_state,
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_co2_state", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            temp_state,
+            sc_type.VAR_COMMON_ARC,
+            temp_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            hum_state,
+            sc_type.VAR_COMMON_ARC,
+            hum_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            co2_state,
+            sc_type.VAR_COMMON_ARC,
+            co2_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
         )
 
         generate_by_template(templ)

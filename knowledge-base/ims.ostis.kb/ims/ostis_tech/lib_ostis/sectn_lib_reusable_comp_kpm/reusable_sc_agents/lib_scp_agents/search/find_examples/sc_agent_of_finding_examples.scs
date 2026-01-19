@@ -1,0 +1,52 @@
+sc_agent_of_finding_examples
+=> nrel_main_idtf:
+    [sc-агент поиска примеров для заданного понятия] (* <- lang_ru;; *);
+    [sc-agent of searching examples for the given concept] (* <- lang_en;; *);
+
+<- abstract_sc_agent;
+
+=> nrel_sc_agent_action_class:
+    action_of_finding_examples;
+
+=> nrel_primary_initiation_condition: 
+    (sc_event_after_generate_outgoing_arc => action_initiated);
+
+=> nrel_initiation_condition_and_result: 
+    (..sc_agent_of_finding_examples_condition => ..sc_agent_of_finding_examples_result);
+
+<= nrel_sc_agent_key_sc_elements: 
+    {
+    action_initiated;
+    action;
+    action_of_finding_examples
+    };
+
+=> nrel_inclusion: 
+    .platform_independent_realization_of_sc_agent_of_finding_examples
+    (*
+    <- platform_independent_abstract_sc_agent;;
+    <= nrel_sc_agent_program: 
+        {
+        agent_of_finding_examples;
+        proc_of_finding_intersection_of_two_sets
+        };;
+    -> sc_agent_of_finding_example_scp    
+        (* <- active_sc_agent;; *);;  
+    *);;
+
+..sc_agent_of_finding_examples_condition
+= [*
+    action_of_finding_examples _-> .._action;;
+    action_initiated _-> .._action;;
+    action _-> .._action;;
+    .._action _-> .._parameter;;
+*];;
+
+..sc_agent_of_finding_examples_result
+= [*
+    action_of_finding_examples _-> .._action;;
+    action_finished _-> .._action;;
+    action _-> .._action;;
+    .._action _=> nrel_result:: .._answer;;
+    .._action _-> .._parameter;;
+*];;

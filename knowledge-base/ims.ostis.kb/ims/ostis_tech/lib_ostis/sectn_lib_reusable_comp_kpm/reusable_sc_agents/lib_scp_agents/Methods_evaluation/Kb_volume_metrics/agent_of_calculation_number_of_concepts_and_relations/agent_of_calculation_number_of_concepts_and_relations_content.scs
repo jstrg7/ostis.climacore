@@ -1,0 +1,190 @@
+agent_of_calculation_number_of_concepts_and_relations
+=> nrel_main_idtf:
+	[агентная scp-программа подсчета количества относительных и абсолютных понятий базы знаний] (* <- lang_ru;; *);
+	[agent scp-program of calculation number of knowledge base concepts and relations] (* <- lang_en;; *);
+<- scp_program;
+<- agent_scp_program;
+-> rrel_key_sc_element: .._process1;;
+
+agent_of_calculation_number_of_concepts_and_relations = [*
+.._process1
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: _event;
+_-> rrel_2:: rrel_in:: _input_arc;
+<=_ nrel_decomposition_of_action:: .._actions (*
+
+	_-> rrel_1:: .._agent_of_calculation_number_of_concepts_and_relations_operator1A (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _temp;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: _input_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator1B;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator1B (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_to_calculate_number_of_concepts_and_relations;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_then:: .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_all_concepts;;
+		_=> nrel_else:: .._agent_of_calculation_number_of_concepts_and_relations_operator_return;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_all_concepts (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_node:: rrel_scp_var:: _all_concepts;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_subject_domains_temp_set;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_return (*
+		<-_ return;;
+
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_subject_domains_temp_set (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_node:: rrel_scp_var:: _subject_domains;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator1C2;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator1C2 (*
+		<-_ searchSetStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: subject_domain;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _subject_domain;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_3:: _subject_domains;;
+
+		_=> nrel_then:: .._agent_of_calculation_number_of_concepts_and_relations_operator_D1_loop_enter;;
+		_=> nrel_else:: .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_result_value_set;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_D1_loop_enter (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _subject_domains;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _subject_domain;;
+
+		_=> nrel_then:: .._agent_of_calculation_number_of_concepts_and_relations_operator_D2_loop_erase;;
+		_=> nrel_else:: .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_result_value_set;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_result_value_set (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_node_link:: rrel_node:: rrel_scp_var:: _result_value;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_calc_concepts_number_set;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_calc_concepts_number_set (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_cardinality_calculation;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_calculation_number_of_concepts_and_relations_param0 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _all_concepts;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_var:: _result_value;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_waitreturn_calc_sections_number;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_waitreturn_calc_sections_number (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_G1_erase_temp_set_1;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_G1_erase_temp_set_1 (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _subject_domains;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_G1_erase_temp_set;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_G1_erase_temp_set (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _all_concepts;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_agent_work_result;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_gen_agent_work_result (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_generation_of_metrics_answer;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_calculation_number_of_concepts_and_relations_param1 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_const:: action_to_calculate_number_of_concepts_and_relations;;
+			_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _result_value;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_waitreturn_generation_agent_work_result;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_waitreturn_generation_agent_work_result (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator7A;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator7A (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_finished_successfully;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_return;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_D2_loop_erase (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _arc1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_D3;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_D3 (*
+		<-_ searchSetStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _subject_domain;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _concept;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_explored_relation;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_3:: _all_concepts;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_D4;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_D4 (*
+		<-_ searchSetStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _subject_domain;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _concept;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_not_maximum_studied_object_class;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_3:: _all_concepts;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_D5;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_concepts_and_relations_operator_D5 (*
+		<-_ searchSetStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _subject_domain;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _concept;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_maximum_studied_object_class;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_3:: _all_concepts;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_concepts_and_relations_operator_D1_loop_enter;;
+	*);;
+
+*);;
+
+*];;

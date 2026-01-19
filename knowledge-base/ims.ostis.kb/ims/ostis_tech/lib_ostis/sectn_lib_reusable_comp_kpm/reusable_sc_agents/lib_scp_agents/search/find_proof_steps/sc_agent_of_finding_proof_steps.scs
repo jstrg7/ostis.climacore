@@ -1,0 +1,53 @@
+sc_agent_of_finding_proof_steps
+=> nrel_main_idtf:
+	[sc-агент поиска действий, используемых в рамках решения] 
+	(* <- lang_ru;; *);
+	[sc-agent of finding actions, which are used within solution] 
+	(* <- lang_en;; *);
+
+<- abstract_sc_agent;
+
+=> nrel_sc_agent_action_class:
+    action_finding_proof_steps;
+
+=> nrel_primary_initiation_condition: 
+	(sc_event_after_generate_outgoing_arc => action_initiated);
+
+=> nrel_initiation_condition_and_result: 
+	(..sc_agent_of_finding_proof_steps_condition => ..sc_agent_of_finding_proof_steps_result);
+
+<= nrel_sc_agent_key_sc_elements: 
+	{
+	action_initiated;
+	action;
+	action_finding_proof_steps
+	};
+
+=> nrel_inclusion: 
+	.platform_independent_realization_of_sc_agent_of_finding_proof_steps
+	(*
+	<- platform_independent_abstract_sc_agent;;
+	<= nrel_sc_agent_program: 
+		{
+		agent_of_finding_proof_steps		
+		};;
+	-> sc_agent_of_finding_proof_steps_scp   
+		(* <- active_sc_agent;; *);;
+	*);;
+
+..sc_agent_of_finding_proof_steps_condition
+= [*
+	action_finding_proof_steps _-> .._action;;
+	action_initiated _-> .._action;;
+	action _-> .._action;;
+	.._action _-> .._parameter;;
+*];;
+
+..sc_agent_of_finding_proof_steps_result
+= [*
+	action_finding_proof_steps _-> .._action;;
+	action_finished _-> .._action;;
+	action _-> .._action;;
+	.._action _=> nrel_result:: .._answer;;
+	.._action _-> .._parameter;;
+*];;

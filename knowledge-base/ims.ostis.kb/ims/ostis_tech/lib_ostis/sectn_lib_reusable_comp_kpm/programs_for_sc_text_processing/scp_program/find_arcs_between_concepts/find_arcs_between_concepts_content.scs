@@ -1,0 +1,93 @@
+lib_component_proc_finding_arcs_between_concepts =  [*
+proc_finding_arcs_between_concepts
+<- scp_program;
+-> rrel_key_sc_element: .._process1;;
+
+proc_finding_arcs_between_concepts = [*
+.._process1
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: _el1;
+_-> rrel_2:: rrel_in:: _el2;
+_-> rrel_3:: rrel_in:: _mainset;
+_-> rrel_4:: rrel_in:: _result;
+<=_ nrel_decomposition_of_action:: .._actions (*
+
+	_-> rrel_1:: .._proc_finding_arcs_between_concepts_operator1A (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: _mainset;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _arc2;;
+
+		_=> nrel_then:: .._proc_finding_arcs_between_concepts_operator1B;;
+		_=> nrel_else:: .._proc_finding_arcs_between_concepts_operator4A;;
+	*);;
+
+	_-> .._proc_finding_arcs_between_concepts_operator1B (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _arc1;;
+
+		_=> nrel_goto:: .._proc_finding_arcs_between_concepts_operator1C;;
+	*);;
+
+	_-> .._proc_finding_arcs_between_concepts_operator4A (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_const:: _mainset;;
+
+		_=> nrel_goto:: .._proc_finding_arcs_between_concepts_operator_return;;
+	*);;
+
+	_-> .._proc_finding_arcs_between_concepts_operator_return (*
+		<-_ return;;
+
+	*);;
+
+	_-> .._proc_finding_arcs_between_concepts_operator1C (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: _result;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _arc2;;
+
+		_=> nrel_goto:: .._proc_finding_arcs_between_concepts_operator2A;;
+	*);;
+
+	_-> .._proc_finding_arcs_between_concepts_operator2A (*
+		<-_ searchSetStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _arc2;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: _arc3;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _smth1;;
+		_-> rrel_fixed:: rrel_scp_const:: rrel_set_2:: _result;;
+		_-> rrel_fixed:: rrel_scp_const:: rrel_set_3:: _result;;
+
+		_=> nrel_then:: .._proc_finding_arcs_between_concepts_operator3A;;
+		_=> nrel_else:: .._proc_finding_arcs_between_concepts_operator2B;;
+	*);;
+
+	_-> .._proc_finding_arcs_between_concepts_operator3A (*
+		<-_ searchSetStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _smth3;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _arc3;;
+		_-> rrel_fixed:: rrel_scp_const:: rrel_set_1:: _result;;
+		_-> rrel_fixed:: rrel_scp_const:: rrel_set_2:: _result;;
+
+		_=> nrel_then:: .._proc_finding_arcs_between_concepts_operator1A;;
+		_=> nrel_else:: .._proc_finding_arcs_between_concepts_operator1A;;
+	*);;
+
+	_-> .._proc_finding_arcs_between_concepts_operator2B (*
+		<-_ searchSetStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _smth2;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: _arc3;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _arc2;;
+		_-> rrel_fixed:: rrel_scp_const:: rrel_set_1:: _result;;
+		_-> rrel_fixed:: rrel_scp_const:: rrel_set_2:: _result;;
+
+		_=> nrel_then:: .._proc_finding_arcs_between_concepts_operator3A;;
+		_=> nrel_else:: .._proc_finding_arcs_between_concepts_operator4A;;
+	*);;
+
+*);;
+
+*];;
+*];;

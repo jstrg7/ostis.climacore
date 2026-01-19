@@ -1,0 +1,52 @@
+sc_agent_of_finding_drafts_developed_by_specific_developer
+=> nrel_main_idtf:
+	[sc-агент поиска черновиков, разработанных конкретным разработчиком] (* <- lang_ru;; *);
+	[sc-agent of finding drafts developed by specific developer] (* <- lang_en;; *);
+
+<- abstract_sc_agent;
+
+=> nrel_sc_agent_action_class:
+    action_to_find_drafts_developed_by_specific_developer;
+
+=> nrel_primary_initiation_condition: 
+	(sc_event_after_generate_outgoing_arc => action_initiated);
+
+=> nrel_initiation_condition_and_result: 
+	(..sc_agent_of_finding_drafts_developed_by_specific_developer_condition => ..sc_agent_of_finding_drafts_developed_by_specific_developer_result);
+
+<= nrel_sc_agent_key_sc_elements: 
+	{
+	action_initiated;
+	action;
+	action_to_find_drafts_developed_by_specific_developer
+	};
+
+=> nrel_inclusion: 
+	.platform_independent_realization_of_sc_agent_of_finding_drafts_developed_by_specific_developer
+	(*
+	<- platform_independent_abstract_sc_agent;;
+	<= nrel_sc_agent_program: 
+		{
+		agent_of_finding_drafts_developed_by_specific_developer
+		};;
+
+	-> sc_agent_of_finding_drafts_developed_by_specific_developer_scp    
+		(* <- active_sc_agent;; *);;  
+	*);;
+
+..sc_agent_of_finding_drafts_developed_by_specific_developer_condition
+= [*
+	action_to_find_drafts_developed_by_specific_developer _-> .._action;;
+	action_initiated _-> .._action;;
+	action _-> .._action;;
+	.._action _-> .._parameter;;
+*];;
+
+..sc_agent_of_finding_drafts_developed_by_specific_developer_result
+= [*
+	action_to_find_drafts_developed_by_specific_developer _-> .._action;;
+	action_finished _-> .._action;;
+	action _-> .._action;;
+	.._action _=> nrel_result:: .._answer;;
+	.._action _-> .._parameter;;
+*];;

@@ -1,0 +1,291 @@
+agent_of_checking_the_main_idtf_for_all_foreign_lang
+=> nrel_main_idtf:
+	[агентная scp-программа проверки наличия основных идентификаторов sc-элементов в рамках заданной структуры для всех внешних языков] (* <- lang_ru;; *);
+	[agent scp-program of сhecking existence of main identifiers for sc-elements within the given structure for all external languages] (* <- lang_en;; *);
+<- scp_program;
+<- agent_scp_program;
+-> rrel_key_sc_element: .._process1;;
+
+agent_of_checking_the_main_idtf_for_all_foreign_lang = [*
+.._process1
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: _event;
+_-> rrel_2:: rrel_in:: _input_arc;
+<=_ nrel_decomposition_of_action:: .._actions (*
+
+	_-> rrel_1:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_A1 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _temp;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: _input_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_A2;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_A2 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_check_the_main_idtf_for_all_foreign_lang;;
+		_-> rrel_2:: rrel_assign:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_A3;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_return;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_A3 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: rrel_structure:: _param;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0_find_context;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_call_proc_of_adding_validating_message;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_return (*
+		<-_ return;;
+
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0_find_context (*
+		<-_ searchElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_scp_var:: _common_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _context;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc_in_relation;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_context_of_action;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0_to_true;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0_to_false;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_call_proc_of_adding_validating_message (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_adding_validating_message;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_param0 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [Wrong 1st parameter! It must be a structure.];;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_waitreturn_proc_of_adding_validating_message;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_waitreturn_proc_of_adding_validating_message (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_return;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0_to_true (*
+		<-_ varAssign;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _is_context_exist;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [true];;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0_to_false (*
+		<-_ varAssign;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _is_context_exist;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [false];;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B0 (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_const:: rrel_node:: rrel_scp_var:: rrel_structure:: _incorrect_structure;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B1;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B1 (*
+		<-_ searchSetStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _param;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_node:: rrel_scp_var:: _node;;
+		_-> rrel_assign:: rrel_scp_var:: rrel_set_3:: _set_of_testing_nodes;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B2;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_gen_verification_answer;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B2 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _set_of_testing_nodes;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _checked_node;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B3;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_D1;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_gen_verification_answer (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_generation_of_verification_answer;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_param1 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_const:: action_check_the_main_idtf_for_all_foreign_lang;;
+			_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _incorrect_structure;;
+			_-> rrel_4:: rrel_fixed:: rrel_scp_const:: structure_which_elements_have_main_idtf_in_some_but_not_all_lang;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr3;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_waitreturn_generation_verification_answer;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_waitreturn_generation_verification_answer (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr3;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_return;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B3 (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _arc;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B4;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_D1 (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _set_of_testing_nodes;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_temp_set_is_not_null;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_temp_set_is_not_null (*
+		<-_ ifVarAssign;;
+		_-> rrel_1:: rrel_scp_var:: _all_languages;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_D2;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_temp_set_2_is_not_null;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_D2 (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _all_languages;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_temp_set_2_is_not_null;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_temp_set_2_is_not_null (*
+		<-_ ifVarAssign;;
+		_-> rrel_1:: rrel_scp_var:: _set_of_identification_nodes;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_D3;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_gen_verification_answer;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_D3 (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _set_of_identification_nodes;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_gen_verification_answer;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B4 (*
+		<-_ searchSetStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: languages;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _concrete_language1;;
+		_-> rrel_assign:: rrel_scp_var:: rrel_set_3:: _all_languages;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B5;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B2;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B5 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _all_languages;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _concrete_language;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B6;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B2;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B6 (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _arc;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B7;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B7 (*
+		<-_ searchSetStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _checked_node;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_scp_var:: arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _node_name;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: arc1;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_main_idtf;;
+		_-> rrel_assign:: rrel_scp_var:: rrel_set_3:: _set_of_identification_nodes;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B8;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_C1;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B8 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _set_of_identification_nodes;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _identification_node;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B9;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_C1;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_C1 (*
+		<-_ genElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _incorrect_structure;;
+		_-> rrel_2:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _checked_node;;
+		_-> rrel_4:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: rrel_key_sc_element;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B2;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B9 (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _arc;;
+
+		_=> nrel_goto:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B10_context_logic1;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B10_context_logic1 (*
+		<-_ stringIfEq;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _is_context_exist;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [true];;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B10_context_logic2;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B10;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B10_context_logic2 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _context;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _identification_node;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B10;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B8;;
+	*);;
+
+	_-> .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B10 (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _concrete_language;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _identification_node;;
+
+		_=> nrel_then:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B5;;
+		_=> nrel_else:: .._agent_of_checking_the_main_idtf_for_all_foreign_lang_operator_B8;;
+	*);;
+
+*);;
+
+*];;

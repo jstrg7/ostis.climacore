@@ -1,0 +1,204 @@
+agent_of_adding_new_draft
+=> nrel_main_idtf:
+	[агентная scp-программа добавления нового черновика] (* <- lang_ru;; *);
+	[agent scp-program of adding new draft] (* <- lang_en;; *);
+<- scp_program;
+<- agent_scp_program;
+-> rrel_key_sc_element: .._process1;;
+
+agent_of_adding_new_draft = [*
+.._process1
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: _event;
+_-> rrel_2:: rrel_in:: _input_arc;
+<=_ nrel_decomposition_of_action:: .._actions (*
+
+	_-> rrel_1:: .._agent_of_adding_new_draft_operator1A (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _temp;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: _input_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator1B;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator1B (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_to_add_new_draft;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_then:: .._agent_of_adding_new_draft_operator1C;;
+		_=> nrel_else:: .._agent_of_adding_new_draft_operator_return;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator1C (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _user;;
+
+		_=> nrel_then:: .._agent_of_adding_new_draft_operator1C_check_is_user;;
+		_=> nrel_else:: .._agent_of_adding_new_draft_operator_return;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_return (*
+		<-_ return;;
+
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator1C_check_is_user (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: ui_user;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _user;;
+
+		_=> nrel_then:: .._agent_of_adding_new_draft_operator_gen_new_draft;;
+		_=> nrel_else:: .._agent_of_adding_new_draft_operator_call_proc_of_adding_validating_message;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_gen_new_draft (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_node:: rrel_scp_var:: rrel_structure:: _new_draft;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_gen_connection;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_call_proc_of_adding_validating_message (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_adding_validating_message;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_adding_new_draft_param0 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [Wrong parameter!It must be user!];;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_waitreturn_proc_of_adding_validating_message;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_waitreturn_proc_of_adding_validating_message (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_unsuccessfully_finished_action;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_unsuccessfully_finished_action (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_finished_unsuccessfully;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_return;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_gen_connection (*
+		<-_ genElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _user;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_const:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _new_draft;;
+		_-> rrel_4:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_authors;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_gen_arc_draft;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_gen_arc_draft (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: draft;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _new_draft;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_gen_answer;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_gen_answer (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_const:: rrel_node:: rrel_scp_var:: _result_of_adding_new_draft;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_add_arc_draft;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_add_arc_draft (*
+		<-_ searchSetStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: draft;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _new_draft;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_2:: _result_of_adding_new_draft;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_add_draft;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_add_draft (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_adding_new_draft;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _new_draft;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_add_relation_draft;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_add_relation_draft (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_adding_new_draft;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_const:: draft;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_add_relation_authors;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_add_relation_authors (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_adding_new_draft;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_const:: nrel_authors;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_add_user;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_add_user (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _result_of_adding_new_draft;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _user;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_add_connection;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_add_connection (*
+		<-_ searchSetStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _user;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _new_draft;;
+		_-> rrel_4:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_authors;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_2:: _result_of_adding_new_draft;;
+		_-> rrel_fixed:: rrel_scp_var:: rrel_set_4:: _result_of_adding_new_draft;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_make_answer;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_make_answer (*
+		<-_ genElStr5;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_common_arc:: rrel_const:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _result_of_adding_new_draft;;
+		_-> rrel_4:: rrel_assign:: rrel_const:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc2;;
+		_-> rrel_5:: rrel_fixed:: rrel_scp_const:: nrel_result;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_successfully_finished_action;;
+	*);;
+
+	_-> .._agent_of_adding_new_draft_operator_successfully_finished_action (*
+		<-_ genElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_finished_successfully;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_adding_new_draft_operator_return;;
+	*);;
+
+*);;
+
+*];;

@@ -1,0 +1,42 @@
+sc_agent_of_search_of_all_identifiers
+=> nrel_main_idtf:
+	[sc-агент поиска всех идентификаторов заданного sc-элемента] (* <- lang_ru;; *);
+	[sc-agent of search of all identifiers of given sc-element] (* <- lang_en;; *);
+<- abstract_sc_agent;
+=> nrel_primary_initiation_condition: (sc_event_after_generate_outgoing_arc => action_initiated);
+=> nrel_initiation_condition_and_result: (..sc_agent_of_search_of_all_identifiers_initiation_condition => ..sc_agent_of_search_of_all_identifiers_result);
+<= nrel_sc_agent_key_sc_elements: 
+	{
+		action_initiated;
+		action;
+		action_search_all_identifiers
+	};
+=> nrel_inclusion: 
+	.c_realization_of_search_of_all_identifiers
+	(*
+		<- platform_dependent_abstract_sc_agent;;
+		<= nrel_sc_agent_program: 
+		{
+			[owner=deniskoronchik; repo=sc-machine; path= sc-kpm/search/agents/search_identifiers.c; syntax=cpp] (* => nrel_format: format_github_source_link;; *);
+			[owner=deniskoronchik; repo=sc-machine; path= sc-kpm/search/agents/search_identifiers.h; syntax=cpp] (* => nrel_format: format_github_source_link;; *)
+		};;
+		
+		-> sc_agent_of_search_of_all_identifiers_agent_c (* <- active_sc_agent;; *);;
+	*);;
+
+..sc_agent_of_search_of_all_identifiers_initiation_condition
+= [*
+	action_search_all_identifiers _-> .._action;;
+	action_initiated _-> .._action;;
+	action _-> .._action;;
+	.._action _-> .._parameter;;
+*];;
+
+..sc_agent_of_search_of_all_identifiers_result
+= [*
+	action_search_all_identifiers _-> .._action;;
+	action_finished _-> .._action;;
+	action _-> .._action;;
+	.._action _=> nrel_result:: .._answer;;
+	.._action _-> .._parameter;;
+*];;

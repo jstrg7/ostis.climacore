@@ -1,0 +1,142 @@
+agent_of_calculation_number_of_class_instances
+=> nrel_main_idtf:
+	[агентная scp-программа подсчета количества элементов класса] (* <- lang_ru;; *);
+	[agent scp-program of calculation number of class instances] (* <- lang_en;; *);
+<- scp_program;
+<- agent_scp_program;
+-> rrel_key_sc_element: .._process1;;
+
+agent_of_calculation_number_of_class_instances = [*
+.._process1
+<-_ scp_process;
+
+_-> rrel_1:: rrel_in:: _event;
+_-> rrel_2:: rrel_in:: _input_arc;
+<=_ nrel_decomposition_of_action:: .._actions (*
+
+	_-> rrel_1:: .._agent_of_calculation_number_of_class_instances_operator1A (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _temp;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: _input_arc;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _action;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator1B;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator1B (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: action_to_calculate_number_of_class_instances;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+
+		_=> nrel_then:: .._agent_of_calculation_number_of_class_instances_operator1C;;
+		_=> nrel_else:: .._agent_of_calculation_number_of_class_instances_operator_return;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator1C (*
+		<-_ searchElStr3;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+		_-> rrel_2:: rrel_assign:: rrel_const_perm_pos_arc:: rrel_scp_var:: _arc1;;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _class;;
+
+		_=> nrel_then:: .._agent_of_calculation_number_of_class_instances_operator1D;;
+		_=> nrel_else:: .._agent_of_calculation_number_of_class_instances_operator_return;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator_return (*
+		<-_ return;;
+
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator1D (*
+		<-_ ifType;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _class;;
+
+		_=> nrel_then:: .._agent_of_calculation_number_of_class_instances_operator1E;;
+		_=> nrel_else:: .._agent_of_calculation_number_of_class_instances_operator4B;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator1E (*
+		<-_ varAssign;;
+		_-> rrel_1:: rrel_assign:: rrel_scp_var:: _number_of_entities;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [0];;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator1F;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator4B (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_adding_validating_message;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_calculation_number_of_class_instances_param0 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _action;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_const:: [Wrong first parameter! It must be a concept];;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator4C;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator4C (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator_return;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator1F (*
+		<-_ genEl;;
+		_-> rrel_1:: rrel_assign:: rrel_node:: rrel_scp_var:: _counted_entities;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator2A;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator2A (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_count_number_of_class_instances;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_calculation_number_of_class_instances_param1 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _class;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_var:: _number_of_entities;;
+			_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _counted_entities;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator2B;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator2B (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator3A;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator3A (*
+		<-_ call;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_const:: proc_of_generation_answer_for_agents_of_calculating_power_of_set;;
+		_-> rrel_2:: rrel_fixed:: rrel_scp_const:: .._agent_of_calculation_number_of_class_instances_param2 (*
+			_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _class;;
+			_-> rrel_2:: rrel_fixed:: rrel_scp_var:: _number_of_entities;;
+			_-> rrel_3:: rrel_fixed:: rrel_scp_var:: _action;;
+		*);;
+		_-> rrel_3:: rrel_assign:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator3B;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator3B (*
+		<-_ waitReturn;;
+		_-> rrel_1:: rrel_fixed:: rrel_scp_var:: _descr1;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator4A;;
+	*);;
+
+	_-> .._agent_of_calculation_number_of_class_instances_operator4A (*
+		<-_ eraseEl;;
+		_-> rrel_1:: rrel_erase:: rrel_fixed:: rrel_scp_var:: _counted_entities;;
+
+		_=> nrel_goto:: .._agent_of_calculation_number_of_class_instances_operator_return;;
+	*);;
+
+*);;
+
+*];;

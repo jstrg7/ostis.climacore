@@ -1,0 +1,43 @@
+sc_agent_of_search_of_all_superclasses_in_quasybinary_relation
+=> nrel_main_idtf:
+	[sc-агент поиска всех известных сущностей, являющихся общими по отношению к заданной] (* <- lang_ru;; *);
+	[sc-agent search all known entities which are common to the predetermined] (* <- lang_en;; *);
+<- abstract_sc_agent;
+=> nrel_primary_initiation_condition: (sc_event_after_generate_outgoing_arc => action_initiated);
+=> nrel_initiation_condition_and_result: (..sc_agent_of_search_of_all_superclasses_in_quasybinary_relation_initiation_condition => ..sc_agent_of_search_of_all_superclasses_in_quasybinary_relation_result);
+<= nrel_sc_agent_key_sc_elements: 
+	{
+		action_initiated;
+		action;
+		action_search_all_superclasses_in_quasybinary_relation
+	};
+
+=> nrel_inclusion: 
+	.c_realization_of_agent_of_search_of_all_superclasses_in_quasybinary_relation
+	(*
+		<- platform_dependent_abstract_sc_agent;;
+		<= nrel_sc_agent_program: 
+		{
+			[owner=deniskoronchik; repo=sc-machine; path= sc-kpm/search/agents/search_structure.c; syntax=cpp] (* => nrel_format: format_github_source_link;; *);
+			[owner=deniskoronchik; repo=sc-machine; path= sc-kpm/search/agents/search_structure.h; syntax=cpp] (* => nrel_format: format_github_source_link;; *)
+		};;
+		
+		-> sc_agent_of_search_of_all_superclasses_in_quasybinary_relation_c (* <- active_sc_agent;; *);;
+	*);;
+
+..sc_agent_of_search_of_all_superclasses_in_quasybinary_relation_initiation_condition
+= [*
+	action_search_all_superclasses_in_quasybinary_relation _-> .._action;;
+	action_initiated _-> .._action;;
+	action _-> .._action;;
+	.._action _-> .._parameter;;
+*];;
+
+..sc_agent_of_search_of_all_superclasses_in_quasybinary_relation_result
+= [*
+	action_search_all_superclasses_in_quasybinary_relation _-> .._action;;
+	action_finished _-> .._action;;
+	action _-> .._action;;
+	.._action _=> nrel_result:: .._answer;;
+	.._action _-> .._parameter;;
+*];;
