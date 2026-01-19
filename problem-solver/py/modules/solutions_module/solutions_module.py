@@ -5,7 +5,7 @@ Distributed under the MIT License
 """
 
 from sc_kpm import ScModule
-from .set_final_insttructions_agent import CreateFinalInstructionsAgent
+from .set_final_instructions_agent import CreateFinalInstructionsAgent
 
 class SolutionsModule(ScModule):
     def __init__(self):
