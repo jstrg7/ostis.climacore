@@ -1,5 +1,0 @@
-nrel_hum_range
-<- sc_node_non_role_relation;
-<- concept_relation;
-=> nrel_main_idtf:
-    [промежуток влажности*];;

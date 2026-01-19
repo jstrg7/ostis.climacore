@@ -1,5 +1,0 @@
-rrel_current_measurement
-<- sc_node_role_relation;
-<- concept_relation;
-=> nrel_main_idtf:
-    [текущее измерение'];;

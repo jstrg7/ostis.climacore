@@ -1,5 +1,0 @@
-concept_dehumidifier
-<- sc_node_class;
-<- concept_device;
-=> nrel_main_idtf: [осушитель воздуха];
--> rrel_fixes_state: concept_hum_state_high;;

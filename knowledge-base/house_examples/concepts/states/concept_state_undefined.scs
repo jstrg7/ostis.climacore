@@ -1,4 +1,0 @@
-concept_state_undefined
-<- sc_node_class;
-<- concept_state;
-=> nrel_main_idtf: [неопознанное состояние];;

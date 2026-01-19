@@ -1,6 +1,0 @@
-concept_hum_state_normal
-<- sc_node_class;
-<- concept_state;
-<- concept_hum_state;
-<- concept_state_normal;
-=> nrel_main_idtf: [нормальное состояние влажности];;
