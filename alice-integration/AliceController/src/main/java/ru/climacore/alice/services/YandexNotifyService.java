@@ -1,4 +1,4 @@
-package services;
+package ru.climacore.alice.services;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

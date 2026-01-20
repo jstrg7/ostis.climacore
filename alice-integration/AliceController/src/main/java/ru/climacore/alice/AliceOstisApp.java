@@ -1,3 +1,5 @@
+package ru.climacore.alice;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

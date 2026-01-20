@@ -1,4 +1,4 @@
-package services;
+package ru.climacore.alice.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

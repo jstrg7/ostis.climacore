@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { connectSc } from './sc/client';
-import { setTemperature, askQuestion } from './sc/commands';
+import { askQuestion } from './sc/commands';
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,10 +10,6 @@ app.post('/sc/query', async (req, res) => {
   const { action, device, value, text } = req.body;
 
   try {
-    if (action === 'set_temperature') {
-      await setTemperature(device, value);
-      return res.json({ text: `Температура установлена: ${value}°` });
-    }
 
     if (action === 'ask') {
       const answer = await askQuestion(text);

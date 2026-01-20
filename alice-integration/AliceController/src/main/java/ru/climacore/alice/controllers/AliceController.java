@@ -1,17 +1,15 @@
-package controllers;
+package ru.climacore.alice.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import services.ScBridgeService;
-import services.YandexNotifyService;
+import ru.climacore.alice.services.ScBridgeService;
+import ru.climacore.alice.services.YandexNotifyService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/alice")
