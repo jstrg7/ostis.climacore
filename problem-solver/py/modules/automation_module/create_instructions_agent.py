@@ -36,9 +36,9 @@ from sc_kpm import ScKeynodes
 
 
 from datetime import datetime
-from .additions import solves_problem
+from .additions import solves_problem, delete_element_from_list, in_list
 
-from .custiom_dataclasses import DeviceEfficiency
+from .custiom_dataclasses import DeviceEfficiency, Problem
 
 
 logging.basicConfig(
@@ -65,28 +65,31 @@ class CreateInstructionsAgent(ScAgentClassic):
         if len(problem_states) == 0 and len(normal_states) == 0: return ScResult.ERROR
         if len(problem_states) == 0: return ScResult.OK
         devices = self.get_devices(room)
+        problems = []
+        for problem_state in problem_states:
+            deviation = self.get_deviation(problem_state)
+            problems.append(Problem(problem_state, deviation))
 
-        conflict_enabled_devices = self.get_conflict_enabled_devices(devices, problem_states)
-        if len(conflict_enabled_devices) != 0:
-            self.create_instructions(room, conflict_enabled_devices, ScKeynodes.resolve("is_off", sc_type.VAR_NODE))
+        print(problems)
+        
+        problems = sorted(problems, key=lambda p: abs(p.problem_coefficient), reverse=True)
+        conflict_enable_devices, problems = self.get_conflict_enable_devices(room, devices, problems)
+        print(conflict_enable_devices)
+        if len(problems) == 0:
+            self.logger.info("All enabled devices is off")
+            self.create_instructions(room=room, enabled_devices=conflict_enable_devices)
             return ScResult.OK
+        
+        other_devices = self.get_other_devices(devices, problems, normal_states)
+        print(other_devices)
+        self.create_instructions(
+            room=room,
+            enabled_devices=conflict_enable_devices,
+            other_devices=other_devices
+        )
+        return ScResult.OK
     
 
-        one_main_device = self.get_one_main_device(devices, problem_states)
-        if one_main_device != ScAddr(0):
-            self.create_instructions(room, [one_main_device], ScKeynodes.resolve("is_on", sc_type.VAR_NODE))
-            return ScResult.OK
-
-
-        devices_for_solving = self.get_solving_devices(devices, problem_states, normal_states) 
-        self.create_instructions(room, devices_for_solving, ScKeynodes.resolve("is_on", sc_type.VAR_NODE))
-
-        
-        link = generate_link(
-            "CreateInstructionsAgent is called", ScLinkContentType.STRING, link_type=sc_type.CONST_NODE_LINK)
-        generate_action_result(action_node, link)
-            
-        return ScResult.OK
 
     def get_states(self, room: ScAddr) -> Tuple[List[ScAddr], List[ScAddr]]:
         def is_normal(state: ScAddr) -> bool:
@@ -140,9 +143,8 @@ class CreateInstructionsAgent(ScAgentClassic):
             if is_normal(state): normal_states.append(state)
             else: problem_states.append(state)
 
-        return problem_states, normal_states 
+        return problem_states, normal_states
     
-
 
     def get_devices(self, room: ScAddr) -> List[ScAddr]:
         templ = ScTemplate()
@@ -162,43 +164,11 @@ class CreateInstructionsAgent(ScAgentClassic):
         devices = []
         for result in search_results: devices.append(result.get("_device"))
         return devices
-    
-
-
-    def get_conflict_enabled_devices(self, devices: List[ScAddr], states: List[ScAddr]) -> List[ScAddr]:
-        all_devices = []
-        for device in devices:
-            for state in states:
-                templ = ScTemplate()
-                templ.quintuple(
-                    device,
-                    sc_type.VAR_COMMON_ARC,
-                    ScKeynodes.resolve("is_on", sc_type.VAR_NODE),
-                    sc_type.VAR_PERM_POS_ARC,
-                    ScKeynodes.resolve("nrel_device_state", sc_type.CONST_NODE_NON_ROLE)
-                )
-                templ.triple(
-                    (sc_type.VAR_NODE_CLASS, "_type"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    device
-                )
-                templ.quintuple(
-                    "_type",
-                    sc_type.VAR_PERM_POS_ARC,
-                    state,
-                    sc_type.VAR_PERM_POS_ARC,
-                    ScKeynodes.resolve("rrel_causes_state", sc_type.CONST_NODE_ROLE)
-                )
-                search_results = search_by_template(templ)
-                if search_results:
-                    all_devices.append(device)
-                    break
         
-        return all_devices
-    
 
 
-    def create_instructions(self, room: ScAddr, devices: List[ScAddr], type: ScAddr) -> None:
+
+    def create_instructions(self, room: ScAddr, enabled_devices: List[ScAddr], other_devices: List[ScAddr]) -> None:
         templ = ScTemplate()
         set_node = generate_node(sc_type.CONST_NODE)
         sc_set = ScSet(set_node=set_node)
@@ -210,162 +180,203 @@ class CreateInstructionsAgent(ScAgentClassic):
             ScKeynodes.resolve("nrel_machine_instructions", sc_type.CONST_NODE_NON_ROLE)
         )
         generate_by_template(templ)
-        for device in devices:
+        for e_device in enabled_devices:
             templ = ScTemplate()
             templ.quintuple(
                 (sc_type.VAR_NODE, "_instruction"), 
                 sc_type.VAR_COMMON_ARC,
-                device,
+                e_device,
                 sc_type.VAR_PERM_POS_ARC,
                 ScKeynodes.resolve("nrel_device", sc_type.CONST_NODE_NON_ROLE)
             )
             templ.quintuple(
                 "_instruction", 
                 sc_type.VAR_PERM_POS_ARC,
-                type,
+                ScKeynodes.resolve("is_off", sc_type.VAR_NODE),
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("rrel_change_to_state", sc_type.CONST_NODE_ROLE)
+            )
+            generate_by_template(templ)
+            sc_set.add(generate_by_template(templ).get("_instruction"))
+        for o_device in other_devices:
+            templ = ScTemplate()
+            templ.quintuple(
+                (sc_type.VAR_NODE, "_instruction"), 
+                sc_type.VAR_COMMON_ARC,
+                o_device,
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("nrel_device", sc_type.CONST_NODE_NON_ROLE)
+            )
+            templ.quintuple(
+                "_instruction", 
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("is_on", sc_type.VAR_NODE),
                 sc_type.VAR_PERM_POS_ARC,
                 ScKeynodes.resolve("rrel_change_to_state", sc_type.CONST_NODE_ROLE)
             )
             generate_by_template(templ)
             sc_set.add(generate_by_template(templ).get("_instruction"))
         return None
+    
 
 
-
-    def get_one_main_device(self, devices: List[ScAddr], states: List[ScAddr]) -> ScAddr:
-        variants = []
+    def get_deviation(self, problem_state: ScAddr) -> float:
+        templ = ScTemplate()
+        templ.quintuple(
+            problem_state,
+            sc_type.VAR_COMMON_ARC,
+            (sc_type.VAR_NODE_LINK, "_deviation"),
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        search_results = search_by_template(templ)
+        if not search_results: return -1000.0
+        return float(get_link_content_data(search_results[0].get("_deviation")))
+        
+    def get_conflict_enable_devices(self, room: ScAddr, devices: List[ScAddr], problems: List[Problem]) -> Tuple[List[ScAddr], List[Problem]]:
+        enabled_devices = []
+        problems_copy = problems.copy()
         for device in devices:
+            if len(problems) == 0: break
             templ = ScTemplate()
             templ.triple(
-                (sc_type.VAR_NODE_CLASS, "_type"),
+                (sc_type.VAR_NODE_CLASS, "_device_type"),
                 sc_type.VAR_PERM_POS_ARC,
                 device
             )
-            for state in states:
-                templ.quintuple(
-                    "_type",
-                    sc_type.VAR_PERM_POS_ARC,
-                    state,
-                    sc_type.VAR_PERM_POS_ARC,
-                    ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_ROLE)
-                )
+            templ.quintuple(
+                device,
+                sc_type.VAR_COMMON_ARC,
+                ScKeynodes.resolve("is_on", sc_type.VAR_NODE),
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("nrel_device_state", sc_type.CONST_NODE_NON_ROLE)
+            )
+            templ.quintuple(
+                "_device_type",
+                sc_type.VAR_PERM_POS_ARC,
+                (sc_type.VAR_NODE_CLASS, "_state"),
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("rrel_causes_state",sc_type.CONST_NODE_ROLE)
+            )
             search_results = search_by_template(templ)
-            if search_results: variants.append(device)
+            previous_len = len(problems_copy)
+            for result in search_results:
+                problems_copy = delete_element_from_list(problems_copy, result.get("_state"))
+                if len(problems_copy) == 0: break
+            if previous_len > len(problems_copy): enabled_devices.append(device) 
+        return enabled_devices, problems_copy
+    
+
+
+    def get_other_devices(self, devices: List[ScAddr], problems: List[Problem], normals: List[ScAddr]) -> List[ScAddr]:
+        device_list = []
+        problems_list = problems 
         
-        if len(variants) == 0: return ScAddr(0)
-        else: return variants[0]
-
-
-
-    def get_solving_devices(self, devices: List[ScAddr], problems: List[ScAddr], normals: List[ScAddr]) -> List[ScAddr]:
-        def has_causes(device: ScAddr, normal_states: List[ScAddr]) -> bool:
-            for normal in normal_states:
-                templ = ScTemplate()
-                templ.triple(
-                    (sc_type.VAR_NODE_CLASS, "_type"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    device
-                )
-                templ.quintuple(
-                    "_type",
-                    sc_type.VAR_PERM_POS_ARC,
-                    (sc_type.VAR_NODE, "_problem"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_ROLE)
-                )
-                templ.triple(
-                    (sc_type.VAR_NODE_CLASS, "_param_class"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    "_problem"
-                )
-                templ.triple(
-                    "_param_class",
-                    sc_type.VAR_PERM_POS_ARC,
-                    normal
-                )
-                if search_by_template(templ): return True
-            return False
-        
-
-        def has_conflict(all_devices: List[ScAddr], this_device: ScAddr):
-            for chosen_device in all_devices:
-                templ = ScTemplate()
-                templ.triple(
-                    (sc_type.VAR_NODE_CLASS, "_type1"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    this_device
-                )
-                templ.quintuple(
-                    "_type1",
-                    sc_type.VAR_PERM_POS_ARC,
-                    (sc_type.VAR_NODE, "_problem1"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_ROLE)
-                )
-                templ.triple(
-                    (sc_type.VAR_NODE_CLASS, "_type2"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    chosen_device
-                )
-                templ.quintuple(
-                    "_type2",
-                    sc_type.VAR_PERM_POS_ARC,
-                    (sc_type.VAR_NODE, "_problem2"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_ROLE)
-                )
-                templ.triple(
-                    (sc_type.VAR_NODE_CLASS, "_param_class"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    "_problem1"
-                )
-                templ.triple(
-                    "_param_class",
-                    sc_type.VAR_PERM_POS_ARC,
-                    "_problem1"
-                )
-                search_results = search_by_template(templ)
-                if not search_results: continue
-                if search_results[0].get("_problem2") != search_results[0].get("_problem1"): return True
-            return False
-        
-
-        device_effitient_list = []
         for device in devices:
-            device_class = DeviceEfficiency(device=device)
-
-            for problem in problems:
-                templ = ScTemplate()
-                templ.triple(
-                    (sc_type.VAR_NODE_CLASS, "_type"),
-                    sc_type.VAR_PERM_POS_ARC,
-                    device
-                )
-                templ.quintuple(
-                    "_type",
-                    sc_type.VAR_PERM_POS_ARC,
-                    problem,
-                    sc_type.VAR_PERM_POS_ARC,
-                    ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_ROLE)
-                )
-                search_results = search_by_template(templ)
-                if search_results:
-                    device_class.add_solution(problem)
-
-            device_effitient_list.append(device_class)
-
-        devices_result = []
-        device_effitient_list = sorted(device_effitient_list, key=lambda de: de.solutions, reverse=True)
-        for device_class in device_effitient_list:
-            if len(problems) == 0: break
-            if not has_causes(device=device_class.device, normal_states=normals) and not has_conflict(devices_result, device_class.device) and len(solves_problem(problems, device_class.problems_solve)) < len(problems):
-                devices_result.append(device_class.device)
-                problems = solves_problem(problems, device_class.problems_solve)
-
-        return devices_result
-
-
-
-
+            templ = ScTemplate()
+            templ.quintuple(
+                device,
+                sc_type.VAR_COMMON_ARC,
+                ScKeynodes.resolve("is_on", sc_type.VAR_NODE),
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("nrel_device_state", sc_type.CONST_NODE_NON_ROLE)
+            )
+            if search_by_template(templ):  
+                continue
             
+            device_efficiency = DeviceEfficiency(device=device)
+            solves_any_problem = False
+            
+            templ = ScTemplate()
+            templ.triple(
+                (sc_type.VAR_NODE_CLASS, "_device_class"),
+                sc_type.VAR_PERM_POS_ARC,
+                device
+            )
+            templ.quintuple(
+                "_device_class",
+                sc_type.VAR_PERM_POS_ARC,
+                (sc_type.VAR_NODE, "_state"),  
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("rrel_fixes_state", sc_type.CONST_NODE_NON_ROLE)
+            )
+            search_results = search_by_template(templ)
+            
+            for result in search_results:
+                state = result.get("_state")
+                in_list_flag, index = in_list(state, problems_list)
+                if in_list_flag:
+                    solves_any_problem = True
+                    device_efficiency.add_solution(state, problems_list[index].problem_coefficient)
+            
+            templ = ScTemplate()
+            templ.triple(
+                (sc_type.VAR_NODE_CLASS, "_device_class"),
+                sc_type.VAR_PERM_POS_ARC,
+                device
+            )
+            templ.quintuple(
+                "_device_class",
+                sc_type.VAR_PERM_POS_ARC,
+                (sc_type.VAR_NODE, "_state"),
+                sc_type.VAR_PERM_POS_ARC,
+                ScKeynodes.resolve("rrel_causes_state", sc_type.CONST_NODE_NON_ROLE)
+            )
+            search_results = search_by_template(templ)
+            
+            for result in search_results:
+                state = result.get("_state")
+                
+                
+                is_normal_state = False
+                for normal in normals:
+                    if normal == state:  # Простое сравнение адресов
+                        is_normal_state = True
+                        break
+                
+                
+                if not is_normal_state:
+                    device_efficiency.add_cause()
+            
+            if solves_any_problem:
+                device_list.append(device_efficiency)
+        
+        device_list = sorted(device_list, key=lambda de: de.solutions, reverse=True)
+        
+        
+        result_list = []
+        remaining_problems = problems_list.copy()
+        
+        for device_efficiency in device_list:
+            if not remaining_problems:
+                break
+            
+            device = device_efficiency.device
+            solves_problems = device_efficiency.problems_solve
+            
+            solves_something = False
+            problems_to_remove = []
+            
+            for solved_state in solves_problems:
+                for i, problem in enumerate(remaining_problems):
+                    if problem.problem == solved_state:
+                        solves_something = True
+                        problems_to_remove.append(i)
+                        break
+            
+            if solves_something:
+                result_list.append(device)
+                
+               
+                problems_to_remove.sort(reverse=True)
+                for idx in problems_to_remove:
+                    if 0 <= idx < len(remaining_problems):
+                        del remaining_problems[idx]
+        
+        return result_list
 
+
+
+
+
+        
