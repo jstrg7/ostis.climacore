@@ -77,7 +77,7 @@ class CreateInstructionsAgent(ScAgentClassic):
         print(conflict_enable_devices)
         if len(problems) == 0:
             self.logger.info("All enabled devices is off")
-            self.create_instructions(room=room, enabled_devices=conflict_enable_devices)
+            self.create_instructions(room=room, enabled_devices=conflict_enable_devices, other_devices=[])
             return ScResult.OK
         
         other_devices = self.get_other_devices(devices, problems, normal_states)
@@ -330,7 +330,7 @@ class CreateInstructionsAgent(ScAgentClassic):
                 
                 is_normal_state = False
                 for normal in normals:
-                    if normal == state:  # Простое сравнение адресов
+                    if normal == state:  
                         is_normal_state = True
                         break
                 

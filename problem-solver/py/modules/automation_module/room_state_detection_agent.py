@@ -72,14 +72,16 @@ class RoomStateDetectionAgent(ScAgentClassic):
         temp = float(get_link_content_data(temp_link))
         hum = float(get_link_content_data(hum_link))
         co2 = float(get_link_content_data(co2_link))
+        if co2 < 800: co2 = 0.0
+        else: co2 = abs(co2 - 800) / 700
         self.set_new_state(
             room, 
             temp_state, 
             hum_state, 
             co2_state, 
-            temp - ((temp_max + temp_min) / 2),
-            hum - ((hum_max + hum_min) / 2),
-            co2 - 800)
+            abs(temp - ((temp_max + temp_min) / 2)) / (temp_max - temp_min),
+            abs(hum - ((hum_max + hum_min) / 2)) / (hum_max - hum_min),
+            co2)
 
         
         link = generate_link(
