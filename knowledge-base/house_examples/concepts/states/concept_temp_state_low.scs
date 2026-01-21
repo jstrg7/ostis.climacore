@@ -1,7 +1,0 @@
-concept_temp_state_low
-<- sc_node_class;
-<- concept_state;
-<- concept_state_low;
-<- concept_temp_state;
--> rrel_is_opposite_to: concept_temp_state_high;
-=> nrel_main_idtf: [пониженное состояние температуры];;

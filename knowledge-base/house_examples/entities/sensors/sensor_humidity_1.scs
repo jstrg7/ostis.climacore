@@ -1,6 +1,0 @@
-sensor_humidity_1 
-<- concept_sensor;
-<- concept_humidity_sensor;
-=> nrel_id: [AA123];
-=> nrel_readings: [80];
--> rrel_located_at: room_1;;
