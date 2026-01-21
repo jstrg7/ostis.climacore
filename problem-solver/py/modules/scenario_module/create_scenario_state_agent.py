@@ -16,15 +16,11 @@ from sc_client.client import (
     erase_elements
 )
 
-from sc_kpm.sc_sets import ScSet
-
 from sc_kpm import ScAgentClassic, ScResult
 from sc_kpm.sc_sets import ScStructure
 from sc_kpm.utils import (
     generate_link,
     get_link_content_data,
-    get_element_system_identifier,
-    generate_node
 )
 from sc_kpm.utils.action_utils import (
     finish_action_with_status,
@@ -36,7 +32,10 @@ from sc_kpm import ScKeynodes
 
 
 from datetime import datetime, timedelta, timezone
-from .additions import get_interval
+
+from .additions import (
+    get_interval
+)
 
 
 logging.basicConfig(
@@ -66,18 +65,22 @@ class CreateScenarioStateAgent(ScAgentClassic):
         print(len(instructions))
         for instruction in instructions:
             room, temp, hum = instruction
-            temp_state, hum_state, co2_state = self.get_state(room, temp=[temp - 0.5, temp + 0.5], hum=[hum - 1.0, hum + 1.0])
+            temp_dev = abs(self.get_measurement(room, ScKeynodes.resolve("nrel_temp", sc_type.CONST_NODE_NON_ROLE)) - temp) / temp
+            hum_dev = abs(self.get_measurement(room, ScKeynodes.resolve("nrel_hum", sc_type.CONST_NODE_NON_ROLE)) - hum) / hum
+            co2_dev = 0.0
+            co2 = self.get_measurement(room, ScKeynodes.resolve("nrel_co2", sc_type.CONST_NODE_NON_ROLE))
+            if co2 > 800: co2_dev = (co2 - 800) / 700
+
+            temp_state, hum_state, co2_state = self.get_state(room=room, temp=[temp - 0.5, temp + 0.5], hum=[hum - 1.0, hum + 1.0])
             self.delete_previous_state(scenario, room)
-            self.set_new_state(scenario, room, temp_state, hum_state, co2_state)
+            self.set_new_state(scenario, room, temp_state, hum_state, co2_state, temp_dev, hum_dev, co2_dev)
 
         
         link = generate_link(
             "CreateScenarioStateAgent is called", ScLinkContentType.STRING, link_type=sc_type.CONST_NODE_LINK)
         generate_action_result(action_node, link)
-            
         return ScResult.OK
     
-
 
     def is_actual(self, scenario: ScAddr) -> bool:
         templ = ScTemplate()
@@ -91,13 +94,35 @@ class CreateScenarioStateAgent(ScAgentClassic):
         search_results = search_by_template(templ)
         if not search_results: 
             self.logger.info("Timestamp was not found")
-            return False
+            return True
+            # return False
         iso_timestamp = get_link_content_data(search_results[0].get("_link"))
         timestamp = datetime.fromisoformat(iso_timestamp)
         now = datetime.now(timezone.utc) if timestamp.tzinfo else datetime.now()
         delta = abs(timestamp - now)
-        return delta <= timedelta(minutes=10)
+        return True
+        # return delta <= timedelta(minutes=10)
 
+
+    def get_measurement(self, room: ScAddr, type: ScAddr) -> float:
+        templ = ScTemplate()
+        templ.quintuple(
+            (sc_type.VAR_NODE, "_measurement"),
+            sc_type.VAR_ACTUAL_TEMP_POS_ARC,
+            room,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("rrel_current_measurement", sc_type.CONST_NODE_ROLE)
+        )
+        templ.quintuple(
+            "_measurement",
+            sc_type.VAR_COMMON_ARC,
+            (sc_type.VAR_NODE_LINK, "_link"),
+            sc_type.VAR_PERM_POS_ARC,
+            type
+        )
+        search_results = search_by_template(templ)
+        if not search_results: return -1000.0
+        return float(get_link_content_data(search_results[0].get("_link")))
 
 
     def get_instructions(self, scenario: ScAddr) -> List[Tuple[ScAddr, float, float]]:
@@ -186,7 +211,7 @@ class CreateScenarioStateAgent(ScAgentClassic):
         return ScKeynodes.resolve(f"concept_temp_state_{get_interval(l=temp[0], r=temp[1], value=float(get_link_content_data(search_results[0].get("_temp_link"))))}", sc_type.CONST_NODE_CLASS), ScKeynodes.resolve(f"concept_hum_state_{get_interval(l=hum[0], r=hum[1], value=float(get_link_content_data(search_results[0].get("_hum_link"))))}", sc_type.CONST_NODE_CLASS), co2_state
 
 
-    def delete_previous_state(self, scenario: ScAddr, room: ScAddr) -> None:
+    def delete_previous_state(self, room: ScAddr, scenario: ScAddr) -> None:
         def is_relation(node: ScAddr) -> bool:
             templ = ScTemplate()
             templ.triple(
@@ -216,7 +241,7 @@ class CreateScenarioStateAgent(ScAgentClassic):
             sc_type.VAR_ACTUAL_TEMP_POS_ARC,
             room,
             sc_type.VAR_PERM_POS_ARC,
-            ScKeynodes.resolve("rrel_current_state", sc_type.CONST_NODE_ROLE)
+            ScKeynodes.resolve("rrel_current_scenario_state", sc_type.CONST_NODE_ROLE)
         )
         templ.quintuple(
             scenario,
@@ -228,37 +253,71 @@ class CreateScenarioStateAgent(ScAgentClassic):
         templ.quintuple(
             "_state",
             sc_type.VAR_COMMON_ARC,
-            sc_type.VAR_NODE,
+            (sc_type.VAR_NODE, "_temp_state"),
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_temp_state", sc_type.CONST_NODE_NON_ROLE)
         )
         templ.quintuple(
             "_state",
             sc_type.VAR_COMMON_ARC,
-            sc_type.VAR_NODE,
+            (sc_type.VAR_NODE, "_hum_state"),
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_hum_state", sc_type.CONST_NODE_NON_ROLE)
         )
         templ.quintuple(
             "_state",
             sc_type.VAR_COMMON_ARC,
-            sc_type.VAR_NODE,
+            (sc_type.VAR_NODE, "_co2_state"),
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_co2_state", sc_type.CONST_NODE_NON_ROLE)
         )
+        templ.quintuple(
+            "_co2_state",
+            sc_type.VAR_COMMON_ARC,
+            sc_type.VAR_NODE_LINK,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            "_hum_state",
+            sc_type.VAR_COMMON_ARC,
+            sc_type.VAR_NODE_LINK,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            "_temp_state",
+            sc_type.VAR_COMMON_ARC,
+            sc_type.VAR_NODE_LINK,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+
 
         search_results = search_by_template(templ)
         if not search_results:
             return None
         for i in range(len(search_results)):
             element = search_results[0].get(i)
-            if element != room and element != scenario and not is_relation(element) and not is_state(element): erase_elements(element)
+            if element != room and not is_relation(element) and not is_state(element): erase_elements(element)
         
         return None
+    
 
 
+    def set_new_state(self, scenario: ScAddr, room: ScAddr, temp_state: ScAddr, hum_state: ScAddr, co2_state: ScAddr, temp_dev: float, hum_dev: float, co2_dev: float) -> None:
+        def generate_link_with_data(data: float) -> ScAddr:
+            construction = ScConstruction()
+            link_content = ScLinkContent(data, ScLinkContentType.FLOAT)
+            construction.generate_link(sc_type.CONST_NODE_LINK, link_content, 'link')
+            link = generate_elements(construction)[0]
+            return link
+        
 
-    def set_new_state(self, scenario: ScAddr, room: ScAddr, temp_state: ScAddr, hum_state: ScAddr, co2_state: ScAddr) -> None:
+        temp_link = generate_link_with_data(temp_dev)
+        hum_link = generate_link_with_data(hum_dev)
+        co2_link = generate_link_with_data(co2_dev)
+
         templ = ScTemplate()
         templ.quintuple(
             (sc_type.VAR_NODE, "_state"),
@@ -295,7 +354,47 @@ class CreateScenarioStateAgent(ScAgentClassic):
             sc_type.VAR_PERM_POS_ARC,
             ScKeynodes.resolve("nrel_co2_state", sc_type.CONST_NODE_NON_ROLE)
         )
+        templ.quintuple(
+            temp_state,
+            sc_type.VAR_COMMON_ARC,
+            temp_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            hum_state,
+            sc_type.VAR_COMMON_ARC,
+            hum_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            co2_state,
+            sc_type.VAR_COMMON_ARC,
+            co2_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("nrel_deviation", sc_type.CONST_NODE_NON_ROLE)
+        )
+        templ.quintuple(
+            scenario,
+            sc_type.VAR_PERM_POS_ARC,
+            hum_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("rrel_owner", sc_type.CONST_NODE_ROLE)
+        )
+        templ.quintuple(
+            scenario,
+            sc_type.VAR_PERM_POS_ARC,
+            temp_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("rrel_owner", sc_type.CONST_NODE_ROLE)
+        )
+        templ.quintuple(
+            scenario,
+            sc_type.VAR_PERM_POS_ARC,
+            co2_link,
+            sc_type.VAR_PERM_POS_ARC,
+            ScKeynodes.resolve("rrel_owner", sc_type.CONST_NODE_ROLE)
+        )
 
         generate_by_template(templ)
-
-            

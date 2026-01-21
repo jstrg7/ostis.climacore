@@ -1,0 +1,597 @@
+.SCgSvg {
+  background-color: #fff;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.SCgText {
+    fill: #00a;
+    font-family: "Arial";
+    font-style: italic;
+    font-weight: bold;
+    font-size: 14px;
+    pointer-events: none;
+    stroke: none;
+}
+
+.SCgNodeEmpty {
+}
+
+.SCgNode {
+    fill: #eee;
+    stroke: #000;
+    stroke-width: 2.5;
+    opacity: 1;
+}
+.SCgNode.DBSCgFirstLevelView {
+}
+.SCgNode.DBSCgSecondLevelView {
+}
+.SCgNode.DBSCgThirdLevelView {
+}
+.SCgNode.DBSCgFourthLevelView {
+}
+.SCgNode.DBSCgFifthLevelView {
+    opacity: 0.8;
+}
+.SCgNode.DBSCgSixthLevelView {
+    opacity: 0.6;
+}
+.SCgNode.DBSCgSeventhLevelView {
+    opacity: 0.4;
+}
+
+.SCgLink {
+    fill: #eee;
+    stroke: #000;
+    stroke-width: 2.5;
+    opacity: 1;
+}
+.SCgLink.Var {
+    stroke-dasharray: 14, 14;
+}
+.SCgLink.DBSCgFirstLevelView {
+}
+.SCgLink.DBSCgSecondLevelView {
+}
+.SCgLink.DBSCgThirdLevelView {
+}
+.SCgLink.DBSCgFourthLevelView {
+}
+.SCgLink.DBSCgFifthLevelView {
+    opacity: 0.8;
+}
+.SCgLink.DBSCgSixthLevelView {
+    opacity: 0.6;
+}
+.SCgLink.DBSCgSeventhLevelView {
+    opacity: 0.4;
+}
+
+.SCgLinkContainer {
+    display: block; 
+    padding: 5px 0px 5px 5px;
+    min-width: 25px;
+    min-height: 25px;
+}
+
+/* --- Connectors --- */
+.SCgConnectorSelectBounds {
+    stroke: none;
+    stroke-width: 10px;
+    fill: none;
+}
+
+.SCgConnector {
+    stroke: #a00;
+    stroke-width: 3px;
+    fill: none;
+}
+
+.SCgConstCommonConnectorBackground {
+    stroke-width: 8px;
+    fill: none;
+}
+
+.SCgCommonConnectorForeground {
+    stroke-width: 5px;
+    stroke: #fff;
+    fill: none;
+}
+.SCgCommonConnectorForeground.DBSCgFirstLevelView {
+    stroke-width: 5;
+}
+.SCgCommonConnectorForeground.DBSCgSecondLevelView {
+    stroke-width: 4.5;
+}
+.SCgCommonConnectorForeground.DBSCgThirdLevelView {
+    stroke-width: 4;
+}
+.SCgCommonConnectorForeground.DBSCgFourthLevelView {
+    stroke-width: 3.5;
+}
+.SCgCommonConnectorForeground.DBSCgFifthLevelView {
+    stroke-width: 3.5;
+    opacity: 0.8;
+}
+.SCgCommonConnectorForeground.DBSCgSixthLevelView {
+    stroke-width: 3.5;
+    opacity: 0.6;
+}
+.SCgCommonConnectorForeground.DBSCgSeventhLevelView {
+    stroke-width: 3;
+    opacity: 0.4;
+}
+
+.SCgCommonConnectorForegroundVar {
+    stroke-width: 5px;
+    fill: none;
+}
+
+.SCgUnknownCommonConnectorForeground {
+    stroke-width: 8px;
+    stroke-dasharray: 14, 14;
+    fill: none;
+}
+
+.SCgConstPermArc {
+    stroke-width: 1.5;
+    fill: none;
+    opacity: 1;
+}
+.SCgConstPermArc.DBSCgFirstLevelView {
+    stroke-width: 1.5;
+}
+.SCgConstPermArc.DBSCgSecondLevelView {
+    stroke-width: 1.2;
+}
+.SCgConstPermArc.DBSCgThirdLevelView {
+    stroke-width: 1;
+}
+.SCgConstPermArc.DBSCgFourthLevelView {
+    stroke-width: 0.5;
+}
+.SCgConstPermArc.DBSCgFifthLevelView {
+    stroke-width: 0.5;
+    opacity: 0.8;
+}
+.SCgConstPermArc.DBSCgSixthLevelView {
+    stroke-width: 0.5;
+    opacity: 0.6;
+}
+.SCgConstPermArc.DBSCgSeventhLevelView {
+    stroke-width: 0.5;
+    opacity: 0.4;
+}
+
+.SCgConstTempArc {
+    stroke-width: 1.5;
+    stroke-dasharray: 2, 2;
+    fill: none;
+}
+.SCgConstTempArc.DBSCgFirstLevelView {
+    stroke-width: 1.5;
+}
+.SCgConstTempArc.DBSCgSecondLevelView {
+    stroke-width: 1.2;
+}
+.SCgConstTempArc.DBSCgThirdLevelView {
+    stroke-width: 1;
+}
+.SCgConstTempArc.DBSCgFourthLevelView {
+    stroke-width: 0.5;
+}
+.SCgConstTempArc.DBSCgFifthLevelView {
+    stroke-width: 0.5;
+    opacity: 0.8;
+}
+.SCgConstTempArc.DBSCgSixthLevelView {
+    stroke-width: 0.5;
+    opacity: 0.6;
+}
+.SCgConstTempArc.DBSCgSeventhLevelView {
+    stroke-width: 0.5;
+    opacity: 0.4;
+}
+
+.SCgVarTempArc {
+    stroke-width: 1.5;
+    stroke-dasharray: 2, 2, 2, 2, 2, 2, 2, 14;
+    fill: none;
+}
+.SCgVarTempArc.DBSCgFirstLevelView {
+    stroke-width: 1.5;
+}
+.SCgVarTempArc.DBSCgSecondLevelView {
+    stroke-width: 1.2;
+}
+.SCgVarTempArc.DBSCgThirdLevelView {
+    stroke-width: 1;
+}
+.SCgVarTempArc.DBSCgFourthLevelView {
+    stroke-width: 0.5;
+}
+.SCgVarTempArc.DBSCgFifthLevelView {
+    stroke-width: 0.5;
+    opacity: 0.8;
+}
+.SCgVarTempArc.DBSCgSixthLevelView {
+    stroke-width: 0.5;
+    opacity: 0.6;
+}
+.SCgVarTempArc.DBSCgSeventhLevelView {
+    stroke-width: 0.5;
+    opacity: 0.4;
+}
+
+.SCgMembershipArcArrowEnd {
+    fill: none;
+    stroke-width: 1.5;
+}
+
+.SCgCommonArcArrowEnd {
+    fill: none;
+    stroke-width: 7.5;
+}
+.SCgCommonArcArrowEnd.DBSCgFirstLevelView {
+    stroke-width: 7.5;
+}
+.SCgCommonArcArrowEnd.DBSCgSecondLevelView {
+    stroke-width: 7.3;
+}
+.SCgCommonArcArrowEnd.DBSCgThirdLevelView {
+    stroke-width: 6.1;
+}
+.SCgCommonArcArrowEnd.DBSCgFourthLevelView {
+    stroke-width: 4.9;
+}
+.SCgCommonArcArrowEnd.DBSCgFifthLevelView {
+    stroke-width: 4.9;
+    opacity: 0.8;
+}
+.SCgCommonArcArrowEnd.DBSCgSixthLevelView {
+    stroke-width: 4.9;
+    opacity: 0.6;
+}
+.SCgCommonArcArrowEnd.DBSCgSeventhLevelView {
+    stroke-width: 4;
+    opacity: 0.4;
+}
+
+.SCgVarPermArc {
+    stroke-dasharray: 14, 14;
+}
+
+.SCgVarCommonConnectorBackground {
+    stroke-width: 8px;
+    stroke-dasharray: 14, 14;
+    fill: none;
+}
+
+.SCgNegArc {
+    stroke-dasharray: 0, 20, 2, 6;
+    stroke-width: 10px;
+}
+.SCgNegArc.DBSCgFirstLevelView {
+    stroke-width: 10px;
+}
+.SCgNegArc.DBSCgSecondLevelView {
+    stroke-width: 9px;
+}
+.SCgNegArc.DBSCgThirdLevelView {
+    stroke-width: 8px;
+}
+.SCgNegArc.DBSCgFourthLevelView {
+    stroke-width: 7px;
+}
+.SCgNegArc.DBSCgFifthLevelView {
+    stroke-width: 6px;
+    opacity: 0.8;
+}
+.SCgNegArc.DBSCgSixthLevelView {
+    stroke-width: 5px;
+    opacity: 0.6;
+}
+.SCgNegArc.DBSCgSeventhLevelView {
+    stroke-width: 4px;
+    opacity: 0.4;
+}
+
+/* TODO */
+.SCgFuzArc {
+    stroke-dasharray: 0, 20, 2, 6;
+    stroke-width: 10px;
+}
+
+/* --------- */
+.SCgPermArcDash {
+    stroke-dasharray: 4, 10;
+}
+
+/* --- contours --- */
+.SCgContour {
+    fill: #ddddff;
+    stroke: black;
+    stroke-width: 2px;
+    stroke-linejoin: round;
+    opacity: 0.9;
+}
+
+.SCgRemovePoint {
+    stroke: #FBF4F2;
+    stroke-width: 3px;
+    fill: #D60011;
+}
+
+.SCgAcceptPoint {
+    stroke: #FBF4F2;
+    stroke-width: 3px;
+    fill: #33BB33;
+}
+
+.SCgAcceptPointHighlighted {
+    stroke: #FcF5F3;
+    stroke-width: 3px;
+    fill: #44cc44;
+}
+
+.SCgRemovePointHighlighted {
+    fill: #FF3300;
+    stroke: #FFBE52;
+}
+
+.SCgLinePoint {
+    stroke: #FBF4F2;
+    stroke-width: 4px;
+    fill: #D60011;
+}
+
+.SCgLinePointHighlighted {
+    fill: #FF3300;
+    stroke: #FFBE52;
+    cursor: move;
+}
+
+path.dragline {
+    stroke: #535A69;
+    stroke-dasharray: 2,2;
+    stroke-width: 2px;
+    fill:   none;
+}
+
+path.draglineBus {
+    stroke: blue;
+    stroke-dasharray: 25,10,10,10;
+    stroke-width: 5px;
+    fill:   none;
+}
+
+path.SCgConnector.hidden {
+    stroke-width: 0;
+}
+
+path.SCgBus {
+    fill:   none;
+    stroke: black;
+    stroke-dasharray: none;
+    stroke-width: 5px;
+}
+
+path.SCgBusPath {
+    fill:   none;
+    stroke-width: 5px;
+}
+
+.SCgElement {
+    cursor: pointer;
+}
+
+/* ----- Default SCg states ----- */
+.SCgStateNormal {
+    stroke: #777;
+}
+
+.SCgStateNormal.SCgStateHighlighted {
+    stroke: #BBB;
+}
+
+.SCgStateMergedWithMemory {
+    stroke: #000;
+}
+
+.SCgStateMergedWithMemory.DBSCgView {
+    stroke: #1E90FF;
+}
+
+.SCgStateMergedWithMemory.SCgStateHighlighted {
+    stroke: #7189A3;
+}
+
+.SCgStateNewInMemory {
+    stroke: #5E7027;
+}
+
+.SCgStateNewInMemory.SCgStateHighlighted {
+    stroke: #AEB893;
+}
+
+.SCgStateFromMemory {
+    stroke: #000;
+}
+
+.SCgStateFromMemory.SCgStateHighlighted {
+    stroke: #444;
+}
+
+.SCgStateSelected {
+    stroke: #C73E00;
+}
+
+.SCgStateSelected.SCgStateHighlighted {
+    stroke: #FD8E00;
+}
+
+/* ------------- User interface -------------- */
+.scg-tools-panel {
+    position: absolute;
+}
+
+.btn-group-vertical {
+    max-width: 34px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    background: #FFF;
+    box-shadow: 0px 0px 8px 8px white;
+  }
+ 
+ @media screen and (max-height: 900px) {
+    .scg-tools-panel {
+       height: calc(100% - 20px);
+       padding-top: 16px;
+       padding-bottom: 16px;
+       cursor: auto;
+    }
+    hr {
+       display: none;
+    }
+    .icon-items{
+       border-radius: 0px !important;
+       margin-bottom: 0px;
+    }
+    .btn-group-vertical {
+       flex-wrap: wrap;
+       max-height: 100%;
+    }
+ }
+
+.scg-tools-panel img {
+    width: 24px;
+}
+
+#scg-set-content-input {
+    resize: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#scg-set-content-buttons-group {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#scg-set-content-buttons-group button span {
+    margin-right: 5px;
+}
+
+.scg-type-list {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.tt-dropdown-menu .tt-dataset-idtf {
+    background-color: #f5f5f5;
+    border: 1px solid #a3a3a3;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-width: 450px;
+    max-height: 400px;
+}
+
+.tt-dropdown-menu .tt-dataset-idtf .tt-suggestion {
+    display: inline-block;
+    max-width: 450px !important;
+    white-space: normal !important;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+
+.tt-dropdown-menu .tt-dataset-idtf .tt-suggestion p {
+    margin: 5px 2px;
+}
+
+.tt-dropdown-menu .tt-dataset-idtf .tt-suggestion .tt-suggestion-icon {
+    width: 16px;
+    height: 16px;
+    margin: auto 2px;
+}
+
+.tt-dropdown-menu .tt-dataset-idtf .tt-suggestions {
+    width: 100%;
+}
+
+.tt-dropdown-menu .tt-dataset-idtf .tt-suggestion:nth-child(odd) {
+    background-color: #e9e9e9;
+}
+
+.tt-dropdown-menu .tt-dataset-idtf .tt-suggestion:hover {
+    background-color: #428bca !important;
+}
+
+.delete-fragments-btn {
+    width: 100%;
+    padding: 4px 8px;
+    background-color: #ffffff;
+    border: none;
+    outline: none;
+
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 23px;
+    color: #454545;
+    transition: all 0.3s ease;
+}
+
+.delete-fragments-btn:hover {
+    background-color: #f6f6f6;
+}
+
+.delete-fragments-btn:active {
+    background-color: #ebedff;
+}
+
+.delete-fragments-btn:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.scg-tool-fragments-popover-content {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    padding: 0;
+}
+
+.delete-fragments-window {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.scg-close-btn-fragments-window {
+    margin-top: 5px;
+    margin-right: 8px;
+}
+
+.empty-delete-btn {
+    display: none;
+}
+
+.disabled-delete-btn {
+    color: #737373;
+    background: #FAFAFA;
+}

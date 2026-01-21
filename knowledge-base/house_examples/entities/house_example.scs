@@ -1,0 +1,8 @@
+house_example
+<- concept_house;
+<- rrel_owner: misha;
+=> nrel_rooms: {
+    room_1;
+    room_2;
+    room_3
+};;
