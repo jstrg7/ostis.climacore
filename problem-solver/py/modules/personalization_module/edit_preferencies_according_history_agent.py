@@ -34,7 +34,7 @@ logging.basicConfig(
 )
 
 
-class EditPreferenciesAgent(ScAgentClassic):
+class EditPreferenciesAccodingHistoryAgent(ScAgentClassic):
     def __init__(self):
         super().__init__("action_edit_preferencties")
 
@@ -42,12 +42,12 @@ class EditPreferenciesAgent(ScAgentClassic):
         result = self.run(action)
         is_successful = result == ScResult.OK
         finish_action_with_status(action, is_successful)
-        self.logger.info("EditPreferenciesAgent finished %s",
+        self.logger.info("EditPreferenciesAccodingHistoryAgent finished %s",
                          "successfully" if is_successful else "unsuccessfully")
         return result
 
     def run(self, action_node: ScAddr) -> ScResult:
-        self.logger.info("EditPreferenciesAgent started")
+        self.logger.info("EditPreferenciesAccodingHistoryAgent started")
         [device, user] = get_action_arguments(action_node, 2)
         temp_values, hum_values = self.get_history(user, device)
         temp_diapazone_size, hum_diapazone_size = self.get_diapazone_size(user)

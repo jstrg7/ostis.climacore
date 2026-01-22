@@ -1,6 +1,0 @@
-sensor_co2_1
-<- concept_sensor;
-<- concept_co2_sensor;
-=> nrel_id: [AC123];
-=> nrel_readings: [1600];
--> rrel_located_at: room_1;;

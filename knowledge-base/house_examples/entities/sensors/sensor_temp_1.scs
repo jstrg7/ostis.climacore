@@ -1,6 +1,0 @@
-sensor_temp_1
-<- concept_sensor;
-<- concept_temp_sensor;
-=> nrel_id: [AB123];
-=> nrel_readings: [22.4];
--> rrel_located_at: room_1;;
