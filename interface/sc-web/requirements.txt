@@ -1,0 +1,6 @@
+tornado
+future
+sqlalchemy
+numpy
+configparser
+py-sc-client==0.4.0

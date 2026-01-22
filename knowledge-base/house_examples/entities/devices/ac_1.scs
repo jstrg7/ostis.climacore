@@ -1,0 +1,6 @@
+ac_1
+<- concept_ac;
+<- concept_device;
+=> nrel_name: [кондиционер 1];
+=> nrel_id: [23456];
+-> rrel_located_at: room_1;;

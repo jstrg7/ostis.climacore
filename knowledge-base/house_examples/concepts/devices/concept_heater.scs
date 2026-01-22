@@ -1,0 +1,7 @@
+concept_heater
+<- sc_node_class;
+<- concept_device;
+=> nrel_main_idtf: [обогреватель];
+-> rrel_fixes_state: concept_temp_state_low;
+-> rrel_causes_state: concept_temp_state_high;
+-> rrel_causes_state: concept_hum_state_low;;
