@@ -1,6 +1,6 @@
 scenario_1
 <- concept_scenario;
--> rrel_owner: misha;
+<- rrel_owner: misha;
 => nrel_instructions: {
     ..instruction1
     (*
