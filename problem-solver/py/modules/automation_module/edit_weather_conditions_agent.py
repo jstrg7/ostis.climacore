@@ -42,7 +42,7 @@ from sc_kpm import ScKeynodes
 from datetime import datetime
 from .additions import get_interval
 
-PYOWM_TOKEN = "YOUR_TOKEN_BOT"
+PYOWM_TOKEN = "7ae68ffd9ddbe0af23386477fdd4c611"
 
 
 logging.basicConfig(
@@ -106,11 +106,11 @@ class EditWeatherConditionsAgent(ScAgentClassic):
     def get_preferences(self, user: ScAddr) -> Tuple[float, float]:
         templ = ScTemplate()
         templ.quintuple(
+            user,
+            sc_type.VAR_COMMON_ARC,
             (sc_type.VAR_NODE, "_prefs"),
             sc_type.VAR_PERM_POS_ARC,
-            user,
-            sc_type.VAR_PERM_POS_ARC,
-            ScKeynodes.resolve("rrel_owner", sc_type.CONST_NODE_ROLE)
+            ScKeynodes.resolve("nrel_prefs", sc_type.CONST_NODE_ROLE)
         )
         templ.quintuple(
             "_prefs",

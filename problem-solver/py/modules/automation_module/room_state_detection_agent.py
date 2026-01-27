@@ -130,11 +130,11 @@ class RoomStateDetectionAgent(ScAgentClassic):
     def get_preferences(self, user: ScAddr) -> Tuple[float, float, float, float]:
         templ = ScTemplate()
         templ.quintuple(
+            user,
+            sc_type.VAR_COMMON_ARC,
             (sc_type.VAR_NODE, "_prefs"),
             sc_type.VAR_PERM_POS_ARC,
-            user,
-            sc_type.VAR_PERM_POS_ARC,
-            ScKeynodes.resolve("rrel_owner", sc_type.CONST_NODE_ROLE)
+            ScKeynodes.resolve("nrel_prefs", sc_type.CONST_NODE_NON_ROLE)
         )
         templ.quintuple(
             "_prefs",

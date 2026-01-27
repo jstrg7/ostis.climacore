@@ -63,7 +63,9 @@ class CreateInstructionsAgent(ScAgentClassic):
         room = get_action_arguments(action_node, 1)[0]
         problem_states, normal_states = self.get_states(room)
         if len(problem_states) == 0 and len(normal_states) == 0: return ScResult.ERROR
-        if len(problem_states) == 0: return ScResult.OK
+        if len(problem_states) == 0:
+            print(1) 
+            return ScResult.OK
         devices = self.get_devices(room)
         problems = []
         for problem_state in problem_states:
