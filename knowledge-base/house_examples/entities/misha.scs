@@ -11,7 +11,7 @@ misha
 
 prefs_misha 
 <- concept_user_preferences;
--> rrel_owner: misha;
+<= nrel_prefs: misha;
 => nrel_temp_range:
     ...
     (*

@@ -1,6 +1,7 @@
 window_1
 <- concept_window;
 <- concept_device;
+<- is_on;
 => nrel_name: [окно 1];
-=> nrel_id: [win_1];
+=> nrel_id: [7];
 -> rrel_located_at: room_1;;

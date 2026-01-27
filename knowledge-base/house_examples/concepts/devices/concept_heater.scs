@@ -1,6 +1,5 @@
 concept_heater
 <- sc_node_class;
-<- concept_device;
 <- concept_device_type;
 => nrel_main_idtf: [обогреватель];
 -> rrel_fixes_state: concept_temp_state_low;

@@ -1,6 +1,6 @@
 humidifier_1
 <- concept_humidifier;
 <- concept_device;
-=> nrel_name: [увлажнитель 1];
-=> nrel_id: [hum_1];
+=> nrel_name: [увлажнитель];
+=> nrel_id: [4];
 -> rrel_located_at: room_1;;

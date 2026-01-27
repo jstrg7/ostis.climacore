@@ -2,5 +2,5 @@ dehumidifier_1
 <- concept_dehumidifier;
 <- concept_device;
 => nrel_name: [осушитель 1];
-=> nrel_id: [12345];
+=> nrel_id: [1];
 -> rrel_located_at: room_1;;

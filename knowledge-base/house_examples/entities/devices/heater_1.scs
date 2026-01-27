@@ -2,6 +2,6 @@ heater_1
 <- concept_heater;
 <- concept_device;
 => nrel_name: [обогреватель 1];
-=> nrel_id: [12345];
-=> nrel_device_state: is_on;
+=> nrel_id: [2];
+<- is_on;
 -> rrel_located_at: room_1;;

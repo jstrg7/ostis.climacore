@@ -1,12 +1,13 @@
 scenario_1
 <- concept_scenario;
 <- rrel_owner: misha;
+=> nrel_start_time: [18:00];
+=> nrel_finish_time: [20:00];
 => nrel_instructions: {
     ..instruction1
     (*
         => nrel_temp: [23];;
         => nrel_hum: [60];;
         => nrel_room: room_1;;
-        => nrel_time: [some time];;
     *)
 };;

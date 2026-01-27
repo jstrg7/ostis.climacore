@@ -1,4 +1,0 @@
-concept_state_high
-<- sc_node_class;
-<- concept_state;
-=> nrel_main_idtf: [повышенное состояние];;
