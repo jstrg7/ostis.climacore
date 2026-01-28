@@ -7,6 +7,7 @@ Distributed under the MIT License
 import argparse
 from sc_kpm import ScServer
 from modules.automation_module.automation_module import AutomationModule
+from modules.scenario_module.scenario_module import ScenarioModule
 
 SC_SERVER_PROTOCOL = "protocol"
 SC_SERVER_HOST = "host"
@@ -23,7 +24,8 @@ def main(args: dict):
 
     with server.connect():
         modules = [
-            AutomationModule()
+            AutomationModule(),
+            ScenarioModule()
         ]
         server.add_modules(*modules)
         with server.register_modules():
